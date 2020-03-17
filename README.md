@@ -23,7 +23,7 @@ Um assistente virtual desktop, com compartilhamento via internet, que irá ajuda
 
 ### Por que um assistente para PET?
 
-Atualmente muitas pessoas tomaram consciência de que cuidar é o melhor, e que todo animal é um ser com sentidos e podem ajudar as pessoas, seja em auxilio à um deficiênte visual ou simplesmete como companheiro do dia a dia.
+Atualmente muitas pessoas tomaram consciência de que cuidar é o melhor, e que todo animal é um ser com sentidos e podem ajudar as pessoas, seja em auxilio à um deficiente visual ou simplesmente como companheiro do dia a dia.
 Esse Assistente tem o intuito de ajudar o utilizador com dicas, agenda, controles, lembretes de ração, passeio e muito mais para cuidar do pet da melhor maneira.
 Com reconhecimento de voz, o utilizador poderá acessar várias funcionalidades como abrir uma agenda ou calcular a quantidade diária de ração para o seu pet.
 Alegria para o pet, facilidades para o dono.
