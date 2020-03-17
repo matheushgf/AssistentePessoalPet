@@ -13,7 +13,7 @@ Projeto Integrador do 1° e 6° Semestre de Banco de Dados da Faculdade de Tecno
 
 ### Masters:
 
-Matheus Henrique Ferreira
+* Matheus Henrique Ferreira
 
 
 ### O que é assistente para PET?
