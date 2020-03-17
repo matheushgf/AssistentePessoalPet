@@ -38,12 +38,11 @@ Alegria para o pet, facilidade para o dono.
 
 ### Ferramentas utilizadas:
 
-Linguagem principal: Python 3.8;
-IDE's: PyCharm;
-Front End Desktop: Tkinter;
+Linguagem principal: Python 3.8 e Tkinter;
 Conceitos do SCRUM - Norteador do Projeto;
 Reconhecimento de voz;
 
-PRÉ REQUISITOS PARA UTILIZAR O ASSISTENTE:
+### Pré requisitos para utilizar o sistema:
+
 Gravação: Microfone;
 Acesso com internet para compartilhar atividades;
