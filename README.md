@@ -32,7 +32,7 @@ Alegria para o pet, facilidade para o dono.
 ### Funções do assistente:
 
 * Registro e controle de peso e ração;
-* Catáloto de pets para adoção;
+* Catálogo de pets para adoção;
 * Lembretes para compra de ração;
 * Lembrete para vacinação;
 * Historico Financeiro;
