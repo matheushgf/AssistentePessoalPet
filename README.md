@@ -1,21 +1,28 @@
 # ProjetoIntegrador
 Projeto Integrador do 1° e 6° Semestre de Banco de Dados da Faculdade de Tecnologia de São José dos Campos
 
+
 ### Desenvolvedores:
-Daniel Cassemiro Souza
-Eduardo Ferreira
-Ruan Macedo
-Renan Moreira Pereira
-Jonathan Santos
-William David Antoniazzi
+
+* Daniel Cassemiro Souza
+* Eduardo Ferreira
+* Ruan Macedo
+* Renan Moreira Pereira
+* Jonathan Santos
+* William David Antoniazzi
 
 ### Masters:
+
 Matheus Henrique Ferreira
 
+
 ### O que é assistente para PET?
+
 Um assistente virtual desktop, com compartilhamento via internet, que irá ajudar o utilizador com cuidados e dicas para o pet, seja ele um cachorro ou gato.
 
+
 ### Por que um assistente para PET?
+
 Atualmente muitas pessoa tomaram conciência de que cuidar é o melhor e que todo animal é um ser com sentidos e pode ajudar as pessoas, seja em auxilio para um deficiênte visual ou simplesmete como companheiro do dia a dia.
 Esse Assistente tem o intuito de ajudar o utilizador com dicas, agenda, controles, lembretes de ração, passeio e muito mais para cuidar do pet da melhor maneira.
 Com reconhecimento de voz, o utilizador pode acessar várias funcionalidades como abrir uma agenda ou calcular a quantia dirária de ração para dar ao pet.
@@ -24,9 +31,8 @@ Alegria para o pet, facilidade para o dono.
 
 ### Funções do assistente:
 
-* Registro e controle de peso;
-* Registro e controle de ração;
-* Registro de pets para doação;
+* Registro e controle de peso e ração;
+* Catáloto de pets para adoção;
 * Lembretes para compra de ração;
 * Lembrete para vacinação;
 * Historico Financeiro;
@@ -36,13 +42,15 @@ Alegria para o pet, facilidade para o dono.
 * Guia com dicas e cuidados para o seu pet;
 * Mapa com locais que aceitam pet, como pet parque, veterinários, pet shops e outros na região;
 
+
 ### Ferramentas utilizadas:
 
-Linguagem principal: Python 3.8 e Tkinter;
-Conceitos do SCRUM - Norteador do Projeto;
-Reconhecimento de voz;
+* Linguagem principal: Python 3.8 e Tkinter;
+* Conceitos do SCRUM - Norteador do Projeto;
+* Reconhecimento de voz;
+
 
 ### Pré requisitos para utilizar o sistema:
 
-Gravação: Microfone;
-Acesso com internet para compartilhar atividades;
+* Gravação: Microfone;
+* Acesso com internet para compartilhar atividades;
