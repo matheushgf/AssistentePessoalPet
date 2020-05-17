@@ -31,23 +31,23 @@ Alegria para o pet, facilidades para o dono.
 
 ### Funções do assistente:
 
-* Registro e controle de peso e ração: Armazena os registros básicos do pet, quantidade de comida para dar e variação de peso do mesmo.
+* Registro e controle de peso e ração: Armazena o peso do pet, quantidade de comida por refeição.
 
-* Catálogo de pets para adoção: Gera uma lista com dados de pets disponíveis para adoção. A lista se mantém atualizada para novos pets, de acordo com os dados fornecidos pelos doadores.
+* Catálogo de pets para adoção: Permite que o usuário cadastre pets para adoção. Permite que outros usuários entrem em contato para adotar.
 
 * Lembretes para compra de ração: Lembra o dono períodicamente, a situação da ração, de acordo com o total de ração e a quantidade dada para o pet ao longo do tempo.
 
-* Lembrete para vacinação: Lembra o dono períodicamente das vacinas que o pet necessita, vacinas necessárias e outras. De acordo os dados informados.
+* Lembrete para vacinação: Permite que o dono marque as vacinas que o pet ira recer.
 
-* Histórico Financeiro: Mostra o histórico de gastos já realizados com o pet (semelhante á um extrato).
+* Histórico Financeiro: Mostra o histórico de gastos já realizados com o pet, permitindo integrar com ração e vacina.
 
 * Eventos: Mostra para o usuário as principais atrações voltadas para pets, na região (Ex: Workshops).
 
 * Clima pet: indica melhor horário do dia para passear com o seu pet (manhã, tarde ou noite), de acordo com os dados de clima.
 
-* Feed: Avaliação dos prestadores de serviços compartilhado com outros utilizadores (funciona como um avaliador de locais).
+* Prestadores de Serviços: Permite que usuários indiquem prestadores e que outros contatos indiquem e avaliem.
 
-* Guia pet: Ajuda com dicas e cuidados básicos para o seu pet.
+* Guia pet: Dicas de cuidados básicos e truques para o seu pet.
 
 * Mapa: Busca locais que aceitam pet, como pet parque, shopping e outros na região.
 
