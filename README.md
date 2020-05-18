@@ -51,7 +51,7 @@ Alegria para o pet, facilidades para o dono.
 
 * Mapa: Busca locais que aceitam pet, como pet parque, shopping e outros na região.
 
-Acesse o link: http://read.me/
+ Acesse o link: http://read.me/
 
 ### Ferramentas utilizadas:
 
