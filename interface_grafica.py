@@ -8,6 +8,7 @@ import random
 import time
 from tkinter import *
 from PIL import ImageTk, Image
+from graficos import graficos
 
 
 ########################################################################################################################
@@ -23,6 +24,7 @@ def combine_func(*funcs):
 ########################################################################################################################
 
 def faq_screen():
+
     faq_screen = Tk()
     faq_screen.configure(background='light blue')
     faq_screen.title("Teste - Projeto Integrador")
@@ -55,6 +57,7 @@ def start():
     global start
     global usuario_verify
     global restart
+
     start = Toplevel()
 
     start.configure(background='light blue')
@@ -67,8 +70,7 @@ def start():
 
     # BOTÃO DE LOGOUT
 
-    logout_bg = PhotoImage(file="logout.png")
-    logout = Button(start, bg='light blue', width="64", height="64", image=logout_bg, command=restart)
+    logout = Button(start, text="Histórico de peso", bg='light blue', command=graficos)
     logout.place(x=1100, y=30)
 
     # relógio simples
@@ -111,6 +113,8 @@ def start():
 
     obs_label = Label(start, text="O que deseja procurar ? ", bg="light blue")
     obs_label.place(x=85, y=300)
+
+
 
 
 ########################################################################################################################
@@ -164,7 +168,7 @@ def cadastro_usuario():
     global senha_info
     global cargo_info
 
-    usuario_info: object = usuario.get()
+    usuario_info = usuario.get()
     senha_info = senha.get()
 
     file = open(usuario_info, "w")
@@ -250,7 +254,7 @@ def password_error():
     global password_error
     global password_error_screen
 
-    password_error_screen: Toplevel = Toplevel()
+    password_error_screen = Toplevel()
     password_error_screen.title("Erro")
     password_error_screen.geometry("150x100")
     Label(password_error_screen, text="Senha inválida").pack()
