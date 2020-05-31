@@ -64,3 +64,9 @@ Alegria para o pet, facilidades para o dono.
 
 * Gravação: Microfone;
 * Acesso com internet para compartilhar atividades;
+
+
+Entrega 2 - 31/05/2020
+Eduardo Alexandre Ferreira:
+Nesta etapa, foi feito um código que identifica a localização por IP, pega a geolocalização e lê a previsão do tempo dos próximos 5 dias.
+
