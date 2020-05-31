@@ -70,7 +70,10 @@ Entrega 3 - 31/05/2020
 Eduardo Alexandre Ferreira:
 Nesta etapa, foi feito um código que identifica a localização por IP, pega a geolocalização e lê a previsão do tempo dos próximos 5 dias.
 
+<<<<<<< HEAD
 Entrega 3 - 31/05/2020
 Jonathan Henrique Gusmão dos Santos:
 Conclusão de uma versão estável do CRUD, para implementação rápida.
 
+=======
+>>>>>>> 8e0b98db11fd61bcc3a066cfb3a459263093ec66
