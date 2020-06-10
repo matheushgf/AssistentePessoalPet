@@ -16,13 +16,11 @@ USE `mydb` ;
 -- Table `mydb`.`dono_pet`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`dono_pet` (
-  `cpf_dono` VARCHAR(14) NOT NULL,
+  `id_dono` INT NOT NULL AUTO_INCREMENT,
   `nome_dono` VARCHAR(45) NOT NULL,
   `endereço_dono` VARCHAR(100) NOT NULL,
   `telefone_dono` VARCHAR(14) NOT NULL,
-  `email_dono` VARCHAR(45) NOT NULL,
-  `senha_dono` VARCHAR(40) NOT NULL,
-  PRIMARY KEY (`cpf_dono`, `email_dono`))
+  PRIMARY KEY (`id_dono`))
 ENGINE = InnoDB;
 
 
@@ -33,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`racao` (
   `id_racao` INT NOT NULL,
   `marca_racao` VARCHAR(45) NOT NULL,
   `quant_racao` FLOAT(3,1) NOT NULL,
+  `quant_diaria_racao` FLOAT(3,1) NOT NULL,
   `data_compra_racao` DATE NULL,
-  `` VARCHAR(45) NULL,
   PRIMARY KEY (`id_racao`))
 ENGINE = InnoDB;
 
@@ -47,16 +45,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`pet` (
   `nome_pet` VARCHAR(45) NOT NULL,
   `data_nasc` DATE NOT NULL,
   `raça` VARCHAR(45) NOT NULL,
-  `porte` ENUM('pequeno', 'medio', 'grande') NOT NULL,
-  `dono_pet_cpf_dono` VARCHAR(14) NOT NULL,
-  `dono_pet_email_dono` VARCHAR(45) NOT NULL,
+  `id_dono` INT NOT NULL AUTO_INCREMENT,
   `racao_id_racao` INT NOT NULL,
   PRIMARY KEY (`id_pet`),
-  INDEX `fk_pet_dono_pet_idx` (`dono_pet_cpf_dono` ASC, `dono_pet_email_dono` ASC) VISIBLE,
+  INDEX `fk_pet_dono_pet_idx` ('id_dono') VISIBLE,
   INDEX `fk_pet_racao1_idx` (`racao_id_racao` ASC) VISIBLE,
   CONSTRAINT `fk_pet_dono_pet`
-    FOREIGN KEY (`dono_pet_cpf_dono` , `dono_pet_email_dono`)
-    REFERENCES `mydb`.`dono_pet` (`cpf_dono` , `email_dono`)
+    FOREIGN KEY ('id_dono')
+    REFERENCES `mydb`.`dono_pet` ('id_dono')
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_pet_racao1`
@@ -66,6 +62,22 @@ CREATE TABLE IF NOT EXISTS `mydb`.`pet` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `mydb`.`pet`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`tipo_pet` (
+  `id_tipo_pet` INT NOT NULL AUTO_INCREMENT,
+  `categoria_tipo_pet` VARCHAR(50) NOT NULL,
+  'id_pet' INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_tipo_pet`),
+  INDEX `fk_tipo_pet_id_pet_idx` ('id_pet') VISIBLE,
+  CONSTRAINT `fk_tipo_pet_id_pet`
+    FOREIGN KEY ('id_pet')
+    REFERENCES `mydb`.`pet` ('id_pet')
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `mydb`.`vacinas`
@@ -135,36 +147,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`gastos` (
   `desc_gastos` TEXT NULL,
   `data_gastos` DATE NULL,
   `` VARCHAR(45) NULL,
-  `dono_pet_cpf_dono` VARCHAR(14) NOT NULL,
-  `dono_pet_email_dono` VARCHAR(45) NOT NULL,
+  `id_dono` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id_gastos`),
-  INDEX `fk_gastos_dono_pet1_idx` (`dono_pet_cpf_dono` ASC, `dono_pet_email_dono` ASC) VISIBLE,
+  INDEX `id_dono` ('id_dono') VISIBLE,
   CONSTRAINT `fk_gastos_dono_pet1`
-    FOREIGN KEY (`dono_pet_cpf_dono` , `dono_pet_email_dono`)
-    REFERENCES `mydb`.`dono_pet` (`cpf_dono` , `email_dono`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`passeio`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`passeio` (
-  `id_passeio` INT NOT NULL AUTO_INCREMENT,
-  `data_inicio_passeio` DATE NOT NULL,
-  `horario_inicio_passeio` TIME NOT NULL,
-  `data_inicio_passeio` DATE NOT NULL,
-  `horario_inicio_passeio` TIME NOT NULL,
-  `local_inicio_passeio` VARCHAR(45) NOT NULL,
-  `local_parada_passeio` VARCHAR(45) NULL,
-  `local_final_passeio` VARCHAR(45) NOT NULL,
-  `pet_id_pet` INT NOT NULL,
-  PRIMARY KEY (`id_passeio`),
-  INDEX `fk_passeio_pet1_idx` (`pet_id_pet` ASC) VISIBLE,
-  CONSTRAINT `fk_passeio_pet1`
-    FOREIGN KEY (`pet_id_pet`)
-    REFERENCES `mydb`.`pet` (`id_pet`)
+    FOREIGN KEY ('id_dono')
+    REFERENCES `mydb`.`dono_pet` (`id_dono`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -175,18 +163,33 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`alerta` (
   `id_alerta` INT NOT NULL AUTO_INCREMENT,
-  `tipo_alerta` ENUM('vacinacao', 'alimentacao') NOT NULL,
   `nome_alerta` VARCHAR(45) NOT NULL,
   `desc_alerta` VARCHAR(45) NOT NULL,
   `data_alerta` DATE NOT NULL,
   `horario_alerta` TIME NULL,
-  `dono_pet_cpf_dono` VARCHAR(14) NOT NULL,
-  `dono_pet_email_dono` VARCHAR(45) NOT NULL,
+  `id_dono` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id_alerta`),
-  INDEX `fk_alerta_dono_pet1_idx` (`dono_pet_cpf_dono` ASC, `dono_pet_email_dono` ASC) VISIBLE,
+  INDEX `fk_alerta_dono_pet1_idx` ('id_dono') VISIBLE,
   CONSTRAINT `fk_alerta_dono_pet1`
-    FOREIGN KEY (`dono_pet_cpf_dono` , `dono_pet_email_dono`)
-    REFERENCES `mydb`.`dono_pet` (`cpf_dono` , `email_dono`)
+    FOREIGN KEY (`id_dono`)
+    REFERENCES `mydb`.`dono_pet` (`id_dono`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`tipo_alerta`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tipo_alerta` (
+  `id_tipo_alerta` INT NOT NULL AUTO_INCREMENT,
+  'categoria_alerta' VARCHAR(50) NOT NULL,
+  `id_alerta` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_tipo_alerta`),
+  INDEX `fk_alerta_id_alerta_idx` ('id_alerta') VISIBLE,
+  CONSTRAINT `fk_alerta_id_alerta`
+    FOREIGN KEY (`id_alerta`)
+    REFERENCES `mydb`.`alerta` (`id_alerta`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
