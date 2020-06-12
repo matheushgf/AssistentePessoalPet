@@ -4,7 +4,6 @@ import random
 import time
 import datetime
 import recognizer
-import interface_grafica
 
 #INICIALIZANDO O OBJETO GRAFICO DA TELA
 root = Tk()
