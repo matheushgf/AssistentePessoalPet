@@ -1,26 +1,45 @@
-'''
-Registro peso
-'''
+'''                                           Registro de Peso e Ração                                                  '''
+
 from tkinter import *
 #from get_tables_field import *
 #from insert import *
 
 registro_peso = []  #Salvar no banco.
-registro_racao = []  #
+registro_racao = []  #Salvar no banco.
 reg_rac_min = 0
+
+'''Validação dos dados--------------------------------------------------------------------------------------------------'''
 
 def validad():
 
-    #Fazer laço para caso os dados sejam letras
 
     global reg_rac_min
-    reg_rac_min = float(reg_pes.get()) * 0.03
 
-    if not reg_pes.get().isnumeric() and len(reg_pes.get()) == 0 and str(reg_pes.get()) == '':
+    if reg_pes.get().isalpha() == True and reg_rac.get().isalpha() == True:
+
+        lb_peso["text"] = 'Dado inválido, digite apenas números entre (0-9).'
+        lb_racao["text"] = 'Dado inválido, digite apenas números entre (0-9).'
+
+    elif reg_pes.get().isalpha() == True and reg_rac.get().isalpha() == False:
+
+        lb_peso["text"] = 'Dado inválido, digite apenas números entre (0-9).'
+        lb_racao["text"] = ''
+
+    elif reg_pes.get().isalpha() == False and reg_rac.get().isalpha() == True:
+
+        lb_peso["text"] = ''
+        lb_racao["text"] = 'Dado inválido, digite apenas números entre (0-9).'
+
+    elif not reg_pes.get().isnumeric() and len(reg_pes.get()) == 0 and str(reg_pes.get()) == '':
 
         lb_peso["text"] = 'Dado inválido, digite novamente.'
 
     else:
+
+        lb_peso["text"] = ''
+        lb_racao["text"] = ''
+
+        reg_rac_min = float(reg_pes.get()) * 0.03
 
         if not reg_rac.get().isnumeric() and len(reg_rac.get()) == 0 and str(reg_rac.get()) == '':
 
@@ -32,6 +51,7 @@ def validad():
 
         else:
 
+            rac["text"] = ''
             lb_peso["text"] = ''
             lb_racao["text"] = ''
             save["text"] = 'Dados salvos com sucesso.'
@@ -42,7 +62,8 @@ def validad():
             str(reg_pes.get())
             registro_peso.append(reg_pes.get())
 
-#Interface gráfica
+'''Interface gráfica----------------------------------------------------------------------------------------------------'''
+
 janela = Tk()
 
 #Campos de registro.
@@ -61,10 +82,10 @@ tex_reg.place(x=40, y=195)
 
 #Mensagens de erro ou informativa para o usuário.
 lb_peso = Label(janela, text='')
-lb_peso.place(x=225, y=155)
+lb_peso.place(x=170, y=155)
 
 lb_racao = Label(janela, text='')
-lb_racao.place(x=225, y=245)
+lb_racao.place(x=170, y=245)
 
 save = Label(janela, text= '')
 save.place(x=155, y=360)
