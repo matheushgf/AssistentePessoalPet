@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from datetime import date
-from Teste_crud import insert
+#from Teste_crud import insert
 
 
 class Application:
@@ -39,7 +39,7 @@ class Application:
 
             values = (peso, data, id_pet)
 
-            insert("hist_peso", values)
+            #insert("hist_peso", values)
             
 
         self.btn_send = Button(self.widget_send, command = send_reg)
