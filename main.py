@@ -4,6 +4,7 @@ import random
 import time
 import datetime
 import recognizer
+import registro_pet
 
 #INICIALIZANDO O OBJETO GRAFICO DA TELA
 root = Tk()
