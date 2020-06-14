@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
-import pymysql as mysql
 import recognizer
+from AssistentePessoalPet import crud
 
 # ---------------------------- FUNÇÕES DO CADASTRO ---------------------------- #
 # Captura dos dados recebidos pelos usuário, Nome e tipo do animal e adiciona ao banco.
@@ -9,18 +9,31 @@ def insert():
     if str(txtnome)=="" or str(txttipo)=="":
         MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
     else:
-        mydb = mysql.connect(host='localhost', user='petuser', password='', db='bancopet', charset='utf8mb4')
-        cursor = mydb.cursor(mysql.cursors.DictCursor)
-        cursor.execute("INSERT INTO bancopet.pet (nome_pet, tipo_pet, id_donopet) "
-                       "VALUES ('"+ txtnome.get().title() +"','"+ txttipo.get().title() +"',1)")
-        cursor.execute("commit");
-        MessageBox.showinfo("Status da ação", "Dados inseridos com sucesso");
-        mydb.close()
+        nome = txtnome.get()
+
+        if txttipo.get() == "Cachorro":
+
+            id_tipo = 1
+
+        elif txttipo.get() == "Gato":
+
+            id_tipo = 2
+
+        else:
+
+            id_tipo = 3
+
+        nome_tabela = 'pet'
+
+        dados = {'nome_pet': nome, 'id_dono': '2', 'id_tipo_pet': id_tipo}
+
+        crud.insert(nome_tabela, dados)
 
 # Reconhece informação por voz para o nome do pet.
 def nomepet():
     txtnomelocal = recognizer.recognizer()
     txtnome.set(txtnomelocal.title())
+    #entnome.labelText = txtnome.get()
 
 # Reconhece informação por voz para o tipo do pet.
 def tipopet():
@@ -33,14 +46,16 @@ def clear():
     txttipo.set("Tipo do pet")
 
 # ------------------------------ TKINTER INTERFACE ------------------------------ #
-def registro_pet():
 
+def registro_pet():
     janela = Tk()
     janela.geometry("350x500+500+200")
     janela.wm_title("Assistente Pet")
     lbltitulo = Label(janela, text="REGISTRO DO PET", font=("Arial", 10, "bold")).place(x=110, y=10)
 
     # ===== VARIAVEIS LOCAIS ===== #
+    global txtnome
+    global txttipo
     txtnome = StringVar()
     txttipo = StringVar()
     txtnome.set("Nome do pet")
@@ -67,3 +82,5 @@ def registro_pet():
     btdel = Button(janela, width=10, text="Apagar", bg="red", command=clear).place(x=230, y=300)
 
     janela.mainloop()
+
+registro_pet()
