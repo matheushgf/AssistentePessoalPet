@@ -1,4 +1,5 @@
 import speech_recognition
+import importlib
 
 command_lists = {'registro de peso':{},'registro de ração':{},'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}}
 
@@ -17,9 +18,16 @@ def command_verification(user_command):
 
         if ( user_command in command_lists.keys()):
                 dados = command_lists[user_command]
-                module = __import__(dados["nome_arquivo"])
-                metodo = getattr(module, dados[dados["nome_funcao"]])
-                metodo()
+                module = importlib.import_module(dados['nome_arquivo'])
+                metodo = getattr(module, dados['nome_funcao'])
+
+                try:
+                        metodo()
+                        return 'Comando executado'
+                except:
+                        return 'Erro ao executar método'
+        else:
+                return 'Comando não encontrado'
 
 
 

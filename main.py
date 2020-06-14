@@ -38,11 +38,9 @@ lblRecognizerText.grid(row=0, column=0,columnspan=1,pady=170)
 
 def button_click():
     resultado = recognizer.recognizer()
-    flag=recognizer.command_verification(resultado)
-    if flag == True:
-        label2.set("Comando Reconhecido")
-    else:
-        label2.set("Comando invalido. Tente novamente")
+    mensagem = recognizer.command_verification(resultado)
+
+    label2.set(mensagem)
 
 #BOTÕES INFERIORES
 reconActivate = Button(Bottom,padx=15, pady=1, bd=1, fg='black', font=('arial',12), width=20,
