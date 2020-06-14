@@ -1,7 +1,7 @@
 import speech_recognition
 import importlib
 
-command_lists = {'registro de peso':{},'registro de ração':{},'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}}
+command_lists = {'registro de peso':{'nome_funcao':'registro_peso', 'nome_arquivo':'registro_peso'},'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}}
 
 def recognizer():
         speech_recognizer = speech_recognition.Recognizer()
