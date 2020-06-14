@@ -59,11 +59,9 @@ lblRodapeText.grid(row=0, column=0)
 #FUNÇÃO PARA VALIDAÇÃO DE COMANDOS
 def button_click():
     resultado = recognizer.recognizer()
-    flag=recognizer.command_verification(resultado)
-    if flag == True:
-        label2.set("Comando Reconhecido. Encaminhando função...")
-    else:
-        label2.set("Comando invalido. Tente novamente")
+    mensagem = recognizer.command_verification(resultado)
+
+    label2.set(mensagem)
 
 #BOTÕES INFERIORES
 
