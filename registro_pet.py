@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter.messagebox as MessageBox
-from petassistant import recognizer
-from petassistant import crud
+from AssistentePessoalPet import recognizer
+from AssistentePessoalPet import crud
 
 # ---------------------------- FUNÇÕES DO CADASTRO ---------------------------- #
 # Captura dos dados recebidos pelos usuário, Nome e tipo do animal e adiciona ao banco.
