@@ -1,86 +1,129 @@
 from tkinter import *
+import threading
 import tkinter.messagebox as MessageBox
-import recognizer
-from AssistentePessoalPet import crud
+from petassistant_develop import recognizer
+from petassistant_develop import crud
 
 # ---------------------------- FUNÇÕES DO CADASTRO ---------------------------- #
-# Captura dos dados recebidos pelos usuário, Nome e tipo do animal e adiciona ao banco.
-def insert():
-    if str(txtnome)=="" or str(txttipo)=="":
+#Validação dos dados recebidos pelo laço valida()
+def validaNomePet(entrada):
+    global valorNomePet
+    valorNomePet = 0
+    nomePet = None
+    try:
+        nomePet = entrada
+        print("Descrição do seu evento: ", nomePet.title())
+        entNomePet['text'] = (nomePet.title())
+        valorNomePet = (nomePet.title())
+        return True
+    except AttributeError:
+        print('Valor inválido, repita')
+    except ValueError:
+        print('Valor não foi dito corretamente.')
+    except:
+        print('Valor inválido')
+
+
+def validaTipoPet(entrada):
+    global valorTipoPet
+    valorTipoPet = ''
+    tipoPet = None
+    try:
+        tipoPet = entrada
+        print("A marca de ração mencionada foi: ", tipoPet.title())
+        entTipoPet['text'] = tipoPet.title()
+        if tipoPet.lower() == 'cachorro':
+            valorTipoPet = 1
+        elif tipoPet.lower == 'gato':
+            valorTipoPet = 2
+        else:
+            valorTipoPet = 3
+        return True
+    except AttributeError:
+        print('Valor inválido, repita')
+    except ValueError:
+        print('Valor não foi dito corretamente.')
+    except:
+        print('Valor inválido')
+
+
+#Laço de repeticação que irá perguntar sobre os intens em tela e irá chamar as funçõe responsáveis para tratamento.
+def valida():
+#    return True
+    confirmado = False
+    while confirmado is not True:
+        # Caso seja necessário colocar mais campos no registro, deverá apenas seguir a forma a baixo, e colocar os dados e a função.
+        campos = {
+            'Nome do pet': {'validacao': validaNomePet, 'mensagem': 'Qual o nome do seu pet?'},
+            'Tipo do pet': {'validacao': validaTipoPet, 'mensagem': 'Qual é o tipo do seu pet?'}}
+
+#       Laço para percorrer todos os campos pela ordem da chave.
+        valido = False
+        while valido is not True:
+            for campo in campos.keys():
+                # Seleção do campo.
+                dados = campos[campo]
+                print(dados['mensagem'])
+                # mensagem(dados['mensagem'])
+                texto = recognizer.recognizer()
+
+#               Validação do comando dito.
+                try:
+                    metodo = dados['validacao']
+                    valido = metodo(texto)
+                except:
+                    print('Erro no método de validação')
+                    break
+
+#           Validação dos dados para sair da tela.
+            if valido:
+                print('Deseja confirmar sim ou não')
+                texto = recognizer.recognizer()
+                if texto.lower() == 'sim':
+                    valido = True
+                    confirmado = True
+                    insertCRUD()
+                    janela.after(5000, lambda: janela.destroy())
+                else:
+                    entNomePet['text'] = "Qual o nome do seu pet?"
+                    entTipoPet['text'] = "Que tipo é o pet?"
+    print('Saiu')
+
+
+# CRUD para inserir dados no banco após validados
+def insertCRUD():
+    if valorNomePet=="" or str(valorTipoPet)=="":
         MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
     else:
-        nome = txtnome.get()
-
-        if txttipo.get() == "Cachorro":
-
-            id_tipo = 1
-
-        elif txttipo.get() == "Gato":
-
-            id_tipo = 2
-
-        else:
-
-            id_tipo = 3
-
         nome_tabela = 'pet'
-
-        dados = {'nome_pet': nome, 'id_dono': '2', 'id_tipo_pet': id_tipo}
-
+        dados = {'nome_pet': valorNomePet, 'id_tipo_pet': valorTipoPet}
         crud.insert(nome_tabela, dados)
 
-# Reconhece informação por voz para o nome do pet.
-def nomepet():
-    txtnomelocal = recognizer.recognizer()
-    txtnome.set(txtnomelocal.title())
-    #entnome.labelText = txtnome.get()
+# Thread para rodar duas ações ao mesmo tempo.
+t = threading.Thread(name='my_service', target=valida)
+t.start()
 
-# Reconhece informação por voz para o tipo do pet.
-def tipopet():
-    txttipolocal = recognizer.recognizer()
-    txttipo.set(txttipolocal.title())
-
-# Apaga valores das labels
-def clear():
-    txtnome.set("Nome do pet")
-    txttipo.set("Tipo do pet")
 
 # ------------------------------ TKINTER INTERFACE ------------------------------ #
+janela = Tk()
+janela.geometry("350x500+500+200")
+janela.wm_title("Assistente Pet")
+lbltitulo = Label(janela, text="REGISTRO DO PET", font=("Arial", 10, "bold")).place(x=110, y=10)
 
-def registro_pet():
-    janela = Tk()
-    janela.geometry("350x500+500+200")
-    janela.wm_title("Assistente Pet")
-    lbltitulo = Label(janela, text="REGISTRO DO PET", font=("Arial", 10, "bold")).place(x=110, y=10)
+# ===== VARIAVEIS LOCAIS ===== #
+global entNomePet
+global entTipoPet
+entNomePet = StringVar()
+entTipoPet = StringVar()
 
-    # ===== VARIAVEIS LOCAIS ===== #
-    global txtnome
-    global txttipo
-    txtnome = StringVar()
-    txttipo = StringVar()
-    txtnome.set("Nome do pet")
-    txttipo.set("Tipo do pet")
+# Labels de idenficação dos campos
+lblnome = Label(janela, text="Nome do Pet:", font=("Arial", 10, "bold")).place(x=10, y=50)
+lbltipo = Label(janela, text="Tipo do Pet:", font=("Arial", 10, "bold")).place(x=10, y=130)
 
-    # Labels de idenficação dos campos
-    lblnome = Label(janela, text="Nome do Pet:", font=("Arial", 8, "bold")).place(x=10, y=70)
-    lbltipo = Label(janela, text="Tipo do Pet:", font=("Arial", 8, "bold")).place(x=10, y=150)
+# Labels que aparecerão as respostas para nome e tipo do pet
+entNomePet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text='Qual o nome do seu pet?')
+entNomePet.place(x=10, y=80)
+entTipoPet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text='Que tipo é o pet?')
+entTipoPet.place(x=10, y=160)
 
-    # Labels que aparecerão as respostas para nome e tipo do pet
-    entnome = Label(janela, font=("Arial", 10), bg='white', width='30', height='2', textvariable=txtnome)
-    entnome.place(x=90, y=90)
-    enttipo = Label(janela, font=("Arial", 10), bg='white', width='30', height='2', textvariable=txttipo)
-    enttipo.place(x=90, y=170)
-
-    # Botões para ouvir o usuário
-    petbt = Button(janela, text='Diga NOME \ndo pet:', command=nomepet)
-    petbt.place(x=10, y=90)
-    tipobt = Button(janela, text='Diga o TIPO \ndo pet:', command=tipopet)
-    tipobt.place(x=10, y=170)
-
-    #Botões de ação, confirmar o cadastro ou apagar.
-    btok = Button(janela, width=10, text="Confirmar", bg="light green", command=insert).place(x=30, y=300)
-    btdel = Button(janela, width=10, text="Apagar", bg="red", command=clear).place(x=230, y=300)
-
-    janela.mainloop()
-
-registro_pet()
+janela.mainloop()
