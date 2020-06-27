@@ -1,67 +1,63 @@
 '''                                           Registro de Peso                                                          '''
-
 from tkinter import *
-from recognizer import recognizer
-#from AssistentePessoalPet import crud
-#import datetime
+import recognizer
 
-def registro_peso():
-    '''Validação dos dados----------------------------------------------------------------------------------------------'''
-
+#def registro_peso():
+'''Validação dos dados----------------------------------------------------------------------------------------------'''
+'''
     #Função secundária que chama função primária.
     def valida(entrada):
-
-        if entrada == '' or entrada == None:
-            valid = False
-            while valid is not True:
-                #messenger["text"] = 'Não ouvi, repita novamente'
+        valid = False
+        while valid is not True:
+            if not entrada == '' or not entrada == None:
+                valida_num(entrada)
+                valid = True
+                print('ok')
+            else:
+                # messenger["text"] = 'Não ouvi, repita novamente'
                 print('Não ouvi, repita novamente')
-                entrada = recognizer()
-                if entrada != '' or entrada != None:
-                    valida_num(entrada)
-                    valid = True
-                    return True
-        else:
-            valida_num(entrada)
-            return True
+                entrada = recognizer.recognizer()
+'''
 
-    #Função primária
-    def valida_num(value):
-        n = None
-
+def valida_num(value):
+    n = None
+    val = False
+    while val is not True:
         try:
             entrada_d = value.split(' ')
             numero = entrada_d[0]
-            #messenger["text"] = f'O Número informado foi {numero}'
             print(f'O Número informado foi {numero}')
             numero = numero.replace(',', '.')
-            #audio_peso.set(str(numero))   #Label de peso
-            print(numero)
+            n = float(numero)
+            audio_peso.set(n)
+            print(n)
+            val = True
+            return True
         except AttributeError:
-            #lb_peso["text"] = 'Valor inválido, repita'
             print('Valor inválido, repita')
+            val = False
+            break
         except ValueError:
-            #lb_peso["text"] = 'Valor não foi dito corretamente.'
             print('Valor não foi dito corretamente.')
+            val = False
+            break
         except:
-            #lb_peso["text"] = 'Valor inválido'
             print('Valor inválido')
+            val = False
+            break
 
-    #Comandos feitos por voz, com chamada dinâmica para a Lebal
+def valida():
     confirmado = False
     while confirmado is not True:
+        campos = {'Peso do pet': {'validacao': valida_num, 'mensagem': 'Qual o peso do Pet hoje'}}
 
-        campos = {
-            'Peso do pet': {'validacao': valida, 'mensagem': 'Qual o peso do Pet hoje'}
-        }
-
-        for campo in campos.keys():
-            valido = False
-            while valido is not True:
+        valido = False
+        while valido is not True:
+            for campo in campos.keys():
                 dados = campos[campo]
                 #messenger["text"] = dados['mensagem']
                 print(dados['mensagem'])
-                texto = recognizer()
+                texto = recognizer.recognizer()
 
                 try:
                     metodo = dados['validacao']
@@ -71,39 +67,41 @@ def registro_peso():
                     print('Erro no método de validação')
                     break
 
-        if valido:
-            #messenger["text"] = 'Deseja confirmar sim ou não'
-            print('Deseja confirmar sim ou não')
-            texto = recognizer()
+            if valido:
+                #messenger["text"] = 'Deseja confirmar sim ou não'
+                print('Deseja confirmar sim ou não')
+                texto = recognizer.recognizer()
+                if texto.title() == 'Sim':
+                    valido = True
+                    confirmado = True
 
-            if texto == 'Sim':
-                valido = True
-                confirmado = True
+'''Interface gráfica------------------------------------------------------------------------------------------------'''
 
-    '''Interface gráfica------------------------------------------------------------------------------------------------'''
+janela = Tk()
 
-    janela = Tk()
+audio_peso = StringVar()
+audio_peso.set("")
 
-    audio_peso = StringVar()
-    audio_peso.set("")
+reg_peso = Label(janela, bg='white', width='50', textvariable=audio_peso)
+reg_peso.place(x=40, y=130)
 
-    reg_peso = Label(janela, bg='white', width='50', textvariable=audio_peso)
-    reg_peso.place(x=40, y=130)
+# Textos de cada campo.
+tex_pes = Label(janela, text="Peso:")
+tex_pes.place(x=40, y=105)
 
-    # Textos de cada campo.
-    tex_pes = Label(janela, text="Peso:")
-    tex_pes.place(x=40, y=105)
+# Mensagens de erro ou informativa para o usuário.
+lb_peso = Label(janela, text='')
+lb_peso.place(x=170, y=155)
 
-    # Mensagens de erro ou informativa para o usuário.
-    lb_peso = Label(janela, text='')
-    lb_peso.place(x=170, y=155)
+messenger = Label(janela, text='')
+messenger.place(x=35, y=280)
 
-    messenger = Label(janela, text='')
-    messenger.place(x=35, y=280)
+petbt = Button(janela, text='Valida', command=valida)
+petbt.place(x=10, y=300)
 
-    janela.title("Registro Peso")
-    janela.geometry("500x500+300+300")
-    janela.mainloop()
+janela.title("Registro Peso")
+janela.geometry("500x500+300+300")
+janela.mainloop()
 
-registro_peso()
+#registro_peso()
 
