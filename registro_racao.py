@@ -123,7 +123,7 @@ def valida():
                     insertcrud()
                     janela.after(5000, lambda: janela.destroy())
                 else:
-                    entMarcaRacao['text'] = "Limpo" # "Qual a marca da ração comprada?"
+                    entMarcaRacao['text'] = "Qual a marca da ração comprada?"
                     entSacoRacao['text'] = "Qual o peso do saco de ração comprado?"
                     entRacaoDiario['text'] = "Qual o valor de ração diário entregue ao pet?"
     print('Saiu')
