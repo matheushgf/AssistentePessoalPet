@@ -1,18 +1,24 @@
 import speech_recognition
 import importlib
 
-command_lists = {'registro de peso':{'nome_funcao':'registro_peso', 'nome_arquivo':'registro_peso'},'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}}
+command_lists = {'registro de raçâo':{'nome_funcao':'registro_racao','nome_arquivo':'registro_racao'},'registro de lembrete':{'nome_funcao':'lembrete_pet', 'nome_arquivo':'lembrete_pet'},'clima':{'nome_funcao':'weather_app', 'nome_arquivo':'weather_app'},'registro de peso':{'nome_funcao':'registro_peso', 'nome_arquivo':'registro_peso'},'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}}
 
 def recognizer():
-        speech_recognizer = speech_recognition.Recognizer()
+        try:
+                speech_recognizer = speech_recognition.Recognizer()
 
-        with speech_recognition.Microphone() as source:
-                print("Ouvindo")
-                audio = speech_recognizer.listen(source)
-        print("O texto reconhecido é:")
-        print(speech_recognizer.recognize_google(audio, language='pt'))
+                with speech_recognition.Microphone() as source:
+                        print("Ouvindo")
+                        audio = speech_recognizer.listen(source)
 
-        return speech_recognizer.recognize_google(audio, language='pt')
+                saida = speech_recognizer.recognize_google(audio, language='pt')
+                saida = saida.strip()
+                print("O texto reconhecido é:")
+                print(saida)
+
+                return saida
+        except:
+                return ""
 
 def command_verification(user_command):
 
@@ -28,9 +34,3 @@ def command_verification(user_command):
                         return 'Erro ao executar método'
         else:
                 return 'Comando não encontrado'
-
-
-
-
-
-
