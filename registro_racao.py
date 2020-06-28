@@ -9,7 +9,7 @@ from petassistant_develop import crud
 # ======================= FUNCOES DO SISTEMA ======================== #
 def validaMarcaRacao(entrada):
     global valorMarcaRacao
-    valorMarcaRacao = ''
+    valorMarcaRacao = str('')
     marcaRacao = None
     try:
         marcaRacao = entrada
@@ -29,17 +29,30 @@ def validaSacoRacao(entrada):
     global valorSacoRacao
     valorSacoRacao = float(0)
     racaoPct = None
-
     try:
-        entradaDado = entrada.split(' ')
-        numero = entradaDado[0]
-        print(entradaDado)
+        entradaDado = entrada.split()
+        if len(entradaDado) == 3:
+            valor01 = entradaDado[0]
+            valor02 = entradaDado[2]
+            valores = (valor01, valor02)
+            numero = ".".join(valores)
+        elif len(entradaDado) == 4:
+            valor01 = entradaDado[0]
+            valor02 = entradaDado[2]
+            valores = (valor01, valor02)
+            numero = ".".join(valores)
+        elif len(entradaDado) == 5:
+            valor01 = entradaDado[0]
+            valor02 = entradaDado[3]
+            valores = (valor01, valor02)
+            numero = ".".join(valores)
+        else:
+            numero = entradaDado[0]
+
         print(f'O Número informado foi {numero}')
-        numero = numero.replace(',', '.')
         racaoPct = float(numero)
         entSacoRacao['text'] = '{:.3f}'.format(racaoPct)
         valorSacoRacao = '{:.3f}'.format(racaoPct)
-        print(valorSacoRacao)
         return True
     except AttributeError:
         print('Valor inválido, repita')
@@ -53,17 +66,31 @@ def validaRacaoDiaria(entrada):
     global valorRacaoDia
     valorRacaoDia = float(0)
     racaoDia = None
-
     try:
-        entradaDado = entrada.split(' ')
-        numero = entradaDado[0]
-        print(entradaDado)
-        print(f'O Número informado foi {numero}')
-        numero = numero.replace(',', '.')
+        entradaDado = entrada.split()
+        if len(entradaDado) == 3:
+            valor1 = entradaDado[0]
+            valor2 = entradaDado[2]
+            valor = (valor1, valor2)
+            numero = ".".join(valor)
+        elif len(entradaDado) == 4:
+            valor1 = entradaDado[0]
+            valor2 = entradaDado[2]
+            valor = (valor1, valor2)
+            numero = ".".join(valor)
+        elif len(entradaDado) == 5:
+            valor1 = entradaDado[0]
+            valor2 = entradaDado[3]
+            valor = (valor1, valor2)
+            numero = ".".join(valor)
+        else:
+            valor1 = ['0',entradaDado[0]]
+            numero = ".".join(valor1)
+
+        print('O Número informado foi:', numero)
         racaoDia = float(numero)
         entRacaoDiario['text'] = '{:.3f}'.format(racaoDia)
         valorRacaoDia = '{:.3f}'.format(racaoDia)
-        print(valorRacaoDia)
         return True
     except AttributeError:
         print('Valor inválido, repita')
@@ -85,46 +112,47 @@ def valida():
             'Racao Diaria': {'validacao': validaRacaoDiaria, 'mensagem': 'Qual o valor de ração diário entregue ao pet?'}
                 }
 #       Laço para percorrer todos os campos pela ordem da chave.
-        valido = False
-        while valido is not True:
+        confirmado = False
+        while confirmado is not True:
             for campo in campos.keys():
-                # Seleção do campo.
-                dados = campos[campo]
-                print(dados['mensagem'])
-                # mensagem(dados['mensagem'])
-                texto = recognizer.recognizer()
+                valido = False
+                while valido is not True:
+                    # Seleção do campo.
+                    dados = campos[campo]
+                    print(dados['mensagem'])
+                    # mensagem(dados['mensagem'])
+                    texto = recognizer.recognizer()
 
-#               Validação do comando dito.
-                try:
-                    metodo = dados['validacao']
-                    valido = metodo(texto)
-                except:
-                    print('Erro no método de validação')
-                    break
+    #               Validação do comando dito.
+                    try:
+                        metodo = dados['validacao']
+                        valido = metodo(texto)
+                    except:
+                        print('Erro no método de validação')
+                        break
 
 #           Validação dos dados para sair da tela.
             if valido:
-                print('Deseja confirmar sim ou não')
-                texto = recognizer.recognizer()
-                if texto.lower() == 'sim':
-                    valido = True
-                    confirmado = True
-                    print(valorMarcaRacao)
-                    print(valorSacoRacao)
-                    print(valorRacaoDia)
-                    insertcrud()
-                    janela.after(5000, lambda: janela.destroy())
-                else:
-                    entMarcaRacao['text'] = "Qual a marca da ração comprada?"
-                    entSacoRacao['text'] = "Qual o peso do saco de ração comprado?"
-                    entRacaoDiario['text'] = "Qual o valor de ração diário entregue ao pet?"
-    print('Saiu')
+                confirmado_valido = False
+                while confirmado_valido is not True:
+                    print('Deseja confirmar sim ou não')
+                    texto = recognizer.recognizer()
+                    if texto.lower() == 'sim' or texto.lower() == 'não':
+                        confirmado_valido = True
+                        if texto.lower() == 'sim':
+                            valido = True
+                            confirmado = True
+                            insertCRUD()
+                            janela.after(5000, lambda: janela.destroy())
+                        else:
+                            entMarcaRacao['text'] = "Qual a marca da ração comprada?"
+                            entSacoRacao['text'] = "Qual o peso do saco de ração comprado?"
+                            entRacaoDiario['text'] = "Qual o valor de ração diário entregue ao pet?"
+            print('Saiu')
 
 
-def insertcrud():
+def insertCRUD():
     hoje = date.today()
-    print(hoje)
-
     if str(valorMarcaRacao)=="" or valorSacoRacao=="" or valorRacaoDia=="":
         MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
     else:
@@ -139,12 +167,10 @@ t.start()
 
 
 # ========================== JANELA TKINTER ========================== #
-#def registro_racao():
 janela = Tk()
 janela.geometry("350x500+500+200")
 janela.wm_title("Assistente Pet")
 lblTitulo = Label(janela, text="REGISTRO DE RAÇÃO DO PET", font=("Arial", 10, "bold")).place(x=70, y=10)
-
 
 # ===================== VARIAVEIS LOCAIS E GLOBAIS ===================== #
 global entMarcaRacao
@@ -153,10 +179,6 @@ global entRacaoDiario
 entMarcaRacao = StringVar()
 entSacoRacao = StringVar()
 entRacaoDiario = StringVar()
-
-# txtMarcaRacao.set("Qual a marca da ração?")
-# txtSacoRacao.set("Qual o peso do saco de ração comprado?")
-# txtRacaoDia.set("Qual o valor de ração diário entregue ao pet?")
 
 # Labels de idenficação dos campos
 lblMarcaRacao = Label(janela, text="Qual a marca da ração:", font=("Arial", 10, "bold")).place(x=10, y=50)
@@ -177,8 +199,3 @@ entRacaoDiario.place(x=10, y=240)
 
 janela.mainloop()
 
-#janela.after(5000,lambda:janela.destroy())
-#registro_racao()
-#_thread.start_new_thread(registro_racao())
-#_thread(registro_racao())
-#registro_racao()
