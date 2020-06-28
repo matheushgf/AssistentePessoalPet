@@ -5,6 +5,7 @@ import random
 import time
 import datetime
 import recognizer
+#import program_not
 
 
 #INICIALIZANDO O OBJETO GRAFICO DA TELA
@@ -84,6 +85,9 @@ def button_click():
 reconActivate = Button(Top3,padx=1, pady=110, bd=1, fg='black', font=('arial',12),
 text="ATIVAR RECONHECIMENTO",command=button_click,image=btnimage).grid(row=0, column=0)
 
+
+
 #FINALIZAÇÃO DA TELA DE SISTEMA
 
 root.mainloop()
+#program_not.execute_alerta()

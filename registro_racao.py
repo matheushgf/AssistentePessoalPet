@@ -4,6 +4,7 @@ import tkinter.messagebox as MessageBox
 from datetime import date
 import recognizer
 import crud
+import pymysql as mysql
 
 
 # ======================= FUNCOES DO SISTEMA ======================== #
@@ -12,17 +13,29 @@ def validaMarcaRacao(entrada):
     valorMarcaRacao = str('')
     marcaRacao = None
     try:
+
+        if entrada == '':
+            entMarcaRacao['text'] = 'Insira o Marca da Ração!'
+            entMarcaRacao['bg'] = '#FF6347'
+            return False
         marcaRacao = entrada
         print("A marca de ração mencionada foi: ", marcaRacao.title())
         entMarcaRacao['text'] = marcaRacao.title()
+        entMarcaRacao['bg'] = '#90EE90'
         valorMarcaRacao = marcaRacao.title()
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entMarcaRacao['text'] = 'Valor inválido, repita'
+        entMarcaRacao['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entMarcaRacao['text'] = 'Valor não foi dito corretamente.'
+        entMarcaRacao['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entMarcaRacao['text'] = 'Valor inválido'
+        entMarcaRacao['bg'] = '#FF6347'
 
 
 def validaSacoRacao(entrada):
@@ -30,6 +43,10 @@ def validaSacoRacao(entrada):
     valorSacoRacao = float(0)
     racaoPct = None
     try:
+        if entrada == '':
+            entSacoRacao['text'] = 'Insira o Marca da Ração!'
+            entSacoRacao['bg'] = '#FF6347'
+            return False
         entradaDado = entrada.split()
         if len(entradaDado) == 3:
             valor01 = entradaDado[0]
@@ -52,14 +69,21 @@ def validaSacoRacao(entrada):
         print(f'O Número informado foi {numero}')
         racaoPct = float(numero)
         entSacoRacao['text'] = '{:.3f}'.format(racaoPct)
+        entSacoRacao['bg'] = '#90EE90'
         valorSacoRacao = '{:.3f}'.format(racaoPct)
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entSacoRacao['text'] = 'Valor inválido, repita'
+        entSacoRacao['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entSacoRacao['text'] = 'Valor não foi dito corretamente.'
+        entSacoRacao['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entSacoRacao['text'] = 'Valor inválido'
+        entSacoRacao['bg'] = '#FF6347'
 
 
 def validaRacaoDiaria(entrada):
@@ -90,14 +114,21 @@ def validaRacaoDiaria(entrada):
         print('O Número informado foi:', numero)
         racaoDia = float(numero)
         entRacaoDiario['text'] = '{:.3f}'.format(racaoDia)
+        entRacaoDiario['bg'] = '#90EE90'
         valorRacaoDia = '{:.3f}'.format(racaoDia)
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entRacaoDiario['text'] = 'Valor inválido, repita'
+        entRacaoDiario['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entRacaoDiario['text'] = 'Valor não foi dito corretamente.'
+        entRacaoDiario['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entRacaoDiario['text'] = 'Valor inválido'
+        entRacaoDiario['bg'] = '#FF6347'
 
 
 # Função para validar e sair da tela em questão.
@@ -148,6 +179,9 @@ def valida():
                             entMarcaRacao['text'] = "Qual a marca da ração comprada?"
                             entSacoRacao['text'] = "Qual o peso do saco de ração comprado?"
                             entRacaoDiario['text'] = "Qual o valor de ração diário entregue ao pet?"
+                            entMarcaRacao['bg'] = "white"
+                            entSacoRacao['bg'] = "white"
+                            entRacaoDiario['bg'] = "white"
             print('Saiu')
 
 

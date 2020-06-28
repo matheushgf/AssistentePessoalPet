@@ -4,44 +4,80 @@ import tkinter.messagebox as MessageBox
 from datetime import date
 import recognizer
 import crud
-import mysql
+import pymysql as mysql
 
 # ======================= FUNCOES DO SISTEMA ======================== #
 def validaPesoPet(entrada):
     global valorPesoPet
-    valorPesoPet = ''
+    valorPesoPet = float(0)
     pesoKgPet = None
     try:
-        entradaDado = entrada.split(' ')
-        kilos = entradaDado[0]
-        gramas = entradaDado[3]
-        pesointeiro = (kilos, gramas)
-        pesoKgPet = ".".join(pesointeiro)
-        print(pesoKgPet)
-        entPeso['text'] = pesoKgPet
-        valorPesoPet = pesoKgPet
+        entradaDado = entrada.split()
+        if len(entradaDado) == 3:
+            valor01 = entradaDado[0]
+            valor02 = entradaDado[2]
+            valores = (valor01, valor02)
+            numero = ".".join(valores)
+        elif len(entradaDado) == 4:
+            valor01 = entradaDado[0]
+            valor02 = entradaDado[2]
+            valores = (valor01, valor02)
+            numero = ".".join(valores)
+        elif len(entradaDado) == 5:
+            valor01 = entradaDado[0]
+            valor02 = entradaDado[3]
+            valores = (valor01, valor02)
+            numero = ".".join(valores)
+        else:
+            numero = entradaDado[0]
+
+        print(f'O Número informado foi {numero}')
+        pesoKgPet = float(numero)
+        entPeso['text'] = '{:.3f}'.format(pesoKgPet)
+        valorPesoPet = '{:.3f}'.format(pesoKgPet)
+        entPeso['bg'] = '#90EE90'
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entPeso['text'] = 'Valor inválido, repita'
+        entPeso['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entPeso['text'] = 'Valor não foi dito corretamente.'
+        entPeso['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entPeso['text'] = 'Valor inválido'
+        entPeso['bg'] = '#FF6347'
 
 def validaNomePet(entrada):
     global nomePet
-    nomePet = None
+    valorNomePet = ''
+    nome = None
     try:
-        nomePet = entrada
-        print("Nome do pet informado: ", nomePet.title())
-        entNomePet['text'] = nomePet.title()
+        nome = entrada
+
+        if entrada == '':
+            entNomePet['text'] = 'Insira o Nome!'
+            entNomePet['bg'] = '#FF6347'
+            return False
+        print("Nome do Pet: ", nome.upper())
+        entNomePet['text'] = nome.upper()
+        entNomePet['bg'] = '#90EE90'
+        valorNomePet = nome.upper()
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entNomePet['text'] = 'Valor inválido, repita'
+        entNomePet['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entNomePet['text'] = 'Valor não foi dito corretamente.'
+        entNomePet['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entNomePet['text'] = 'Valor inválido'
+        entNomePet['bg'] = '#FF6347'
 
 
 def insertCRUD():
@@ -52,7 +88,7 @@ def insertCRUD():
         MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
     else:
         nome_tabela = 'hist_peso'
-        dados = {'peso': valorPesoPet, 'data': hoje, 'pet_id_pet': 14}
+        dados = {'peso': valorPesoPet, 'data': hoje, 'pet_id_pet': 2}
         crud.insert(nome_tabela, dados)
 
 
@@ -66,36 +102,43 @@ def valida():
             'Nome do Pet': {'validacao': validaNomePet, 'mensagem': 'Qual o nome do pet?'}}
 
 #       Laço para percorrer todos os campos pela ordem da chave.
-        valido = False
-        while valido is not True:
+        confirmado = False
+        while confirmado is not True:
             for campo in campos.keys():
-                # Seleção do campo.
-                dados = campos[campo]
-                print(dados['mensagem'])
-                # mensagem(dados['mensagem'])
-                texto = recognizer.recognizer()
+                valido = False
+                while valido is not True:
+                    # Seleção do campo.
+                    dados = campos[campo]
+                    print(dados['mensagem'])
+                    # mensagem(dados['mensagem'])
+                    texto = recognizer.recognizer()
 
-#               Validação do comando dito.
-                try:
-                    metodo = dados['validacao']
-                    valido = metodo(texto)
-                except:
-                    print('Erro no método de validação')
-                    break
+                    #               Validação do comando dito.
+                    try:
+                        metodo = dados['validacao']
+                        valido = metodo(texto)
+                    except:
+                        print('Erro no método de validação')
+                        break
 
 #           Validação dos dados para sair da tela.
             if valido:
-                print('Deseja confirmar sim ou não')
-                texto = recognizer.recognizer()
-                if texto.lower() == 'sim':
-                    valido = True
-                    confirmado = True
-                    print(valorPesoPet)
-                    insertCRUD()
-                    janela.after(5000, lambda: janela.destroy())
-                else:
-                    entPeso['text'] = "Diga o peso do pet, ex: 12 Kg e 500 gramas"
-                    entNomePet['text'] = "Diga o nome do pet"
+                confirmado_valido = False
+                while confirmado_valido is not True:
+                    print('Deseja confirmar sim ou não')
+                    texto = recognizer.recognizer()
+                    if texto.lower() == 'sim' or texto.lower() == 'não':
+                        confirmado_valido = True
+                        if texto.lower() == 'sim':
+                            valido = True
+                            confirmado = True
+                            insertCRUD()
+                            janela.after(5000, lambda: janela.destroy())
+                        else:
+                            entPeso['text'] = "Diga o peso do pet, ex: 12 Kg e 500 gramas"
+                            entNomePet['text'] = "Diga o nome do pet"
+                            entPeso['bg'] = "white"
+                            entNomePet['bg'] = "white"
     print('Saiu')
 
 

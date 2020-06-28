@@ -9,42 +9,65 @@ import crud
 def validaNomePet(entrada):
     global valorNomePet
     valorNomePet = ''
-    nomePet = None
+    nome = None
     try:
-        nomePet = entrada
-        print("Descrição do seu evento: ", nomePet.title())
-        entNomePet['text'] = (nomePet.title())
-        valorNomePet = (nomePet.title())
+        nome = entrada
+
+        if entrada == '':
+            entNomePet['text'] = 'Insira o Nome!'
+            entNomePet['bg'] = '#FF6347'
+            return False
+        print("Nome do Pet: ", nome.title())
+        entNomePet['text'] = nome.title()
+        entNomePet['bg'] = '#90EE90'
+        valorNomePet = nome.title()
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entDescEvento['text'] = 'Valor inválido, repita'
+        entDescEvento['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entDescEvento['text'] = 'Valor não foi dito corretamente.'
+        entDescEvento['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entNomePet['text'] = 'Valor inválido'
+        entNomePet['bg'] = '#FF6347'
 
 
 def validaTipoPet(entrada):
     global valorTipoPet
     valorTipoPet = ''
     tipoPet = None
+
+    tipos_pet = {'cachorro': 1, 'gato': 2, 'outros': 3}
+
     try:
         tipoPet = entrada
         print("A marca de ração mencionada foi: ", tipoPet.title())
-        entTipoPet['text'] = tipoPet.title()
-        if tipoPet.lower() == 'cachorro':
-            valorTipoPet = 1
-        elif tipoPet.lower == 'gato':
-            valorTipoPet = 2
+        if tipoPet.lower() in tipos_pet.keys():
+            entTipoPet['text'] = tipoPet.title()
+            entTipoPet['bg'] = '#90EE90'
+            valorTipoPet = tipos_pet[tipoPet.lower()]
         else:
-            valorTipoPet = 3
+            print('Valor não foi dito corretamente.')
+            entTipoPet['text'] = 'Valor não foi dito corretamente.'
+            entTipoPet['bg'] = '#FF6347'
+            return False
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entTipoPet['text'] = 'Valor inválido, repita'
+        entTipoPet['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entTipoPet['text'] = 'Valor não foi dito corretamente.'
+        entTipoPet['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entTipoPet['text'] = 'Valor inválido'
+        entTipoPet['bg'] = '#FF6347'
 
 
 #Laço de repeticação que irá perguntar sobre os intens em tela e irá chamar as funçõe responsáveis para tratamento.
@@ -54,7 +77,7 @@ def valida():
         # Caso seja necessário colocar mais campos no registro, deverá apenas seguir a forma a baixo, e colocar os dados e a função.
         campos = {
             'Nome do pet': {'validacao': validaNomePet, 'mensagem': 'Qual o nome do seu pet?'},
-            'Tipo do pet': {'validacao': validaTipoPet, 'mensagem': 'Qual é o tipo do seu pet?'}
+            'Tipo do pet': {'validacao': validaTipoPet, 'mensagem': 'Qual é o tipo do seu pet?(Cachorro/Gato/Outros)'}
         }
 
 #       Laço para percorrer todos os campos pela ordem da chave.
@@ -93,6 +116,8 @@ def valida():
                         else:
                             entNomePet['text'] = "Qual o nome do seu pet?"
                             entTipoPet['text'] = "Que tipo é o pet?"
+                            entNomePet['bg'] = "white"
+                            entTipoPet['bg'] = "white"
         print('Saiu')
 
 
@@ -102,7 +127,7 @@ def insertCRUD():
         MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
     else:
         nome_tabela = 'pet'
-        dados = {'nome_pet': valorNomePet, 'id_tipo_pet': valorTipoPet}
+        dados = {'nome_pet': valorNomePet, 'id_tipo_pet': valorTipoPet, 'id_dono': 3}
         crud.insert(nome_tabela, dados)
 
 # Thread para rodar duas ações ao mesmo tempo.
@@ -129,7 +154,7 @@ lbltipo = Label(janela, text="Tipo do Pet:", font=("Arial", 10, "bold")).place(x
 # Labels que aparecerão as respostas para nome e tipo do pet
 entNomePet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text='Qual o nome do seu pet?')
 entNomePet.place(x=10, y=80)
-entTipoPet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text='Que tipo é o pet?')
+entTipoPet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text='Que tipo é o pet?(Cachorro/Gato/Outros)')
 entTipoPet.place(x=10, y=160)
 
 janela.mainloop()

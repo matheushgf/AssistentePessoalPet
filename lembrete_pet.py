@@ -22,21 +22,29 @@ def validaDataEvento(entrada):
 
         if mes.lower() not in meses.keys():
             print("Mês inexistente!")
+            entDataEvento['text'] = 'Mês Inexistente'
+            entDataEvento['bg'] = '#FF6347'
             return False
 
         if dia < 1 or dia > 31:
             print("O dia precisa ser entre 1 e 31!")
+            entDataEvento['text'] = 'O dia precisa ser entre 1 e 31!'
+            entDataEvento['bg'] = '#FF6347'
             return False
 
         mes = meses[mes]
 
         if mes < 1 or mes > 12:
             print("O mês precisa ser entre 1 e 12!")
+            entDataEvento['text'] = 'O mês precisa ser entre 1 e 12!'
+            entDataEvento['bg'] = '#FF6347'
             return False
 
         ano_atual = int(datetime.datetime.now().strftime("%Y"))
         if ano < ano_atual:
             print("Você não fazer lembretes no passado!")
+            entDataEvento['text'] = 'Você não fazer lembretes no passado!'
+            entDataEvento['bg'] = '#FF6347'
             return False
 
 
@@ -48,16 +56,21 @@ def validaDataEvento(entrada):
         print(f'O Número informado foi {data}')
 
         entDataEvento['text'] = dataFormat #Valor que faz a mudança na label em tela.
-        lblData['highlightcolor'] = 'green'
-        lblData['highlightthickness'] = 1
+        entDataEvento['bg'] = '#90EE90'
         valorDataEvento = data #Valor a ser inserido no banco
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entDataEvento['text']='Valor inválido, repita'
+        entDataEvento['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entDataEvento['text']='Valor não foi dito corretamente.'
+        entDataEvento['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entDataEvento['text']='Valor inválido'
+        entDataEvento['bg'] = '#FF6347'
 
 
 def validaHoraEvento(entrada):
@@ -87,14 +100,21 @@ def validaHoraEvento(entrada):
         print('O Número informado foi {}'.format(hora_min))
 
         entHoraEvento['text'] = hora_min
+        entHoraEvento['bg'] = '#90EE90'
         valorHoraEvento = hora_min
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entHoraEvento['text'] = 'Valor inválido, repita'
+        entHoraEvento['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entHoraEvento['text'] = 'Valor não foi dito corretamente.'
+        entHoraEvento['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entHoraEvento['text'] = 'Valor inválido'
+        entHoraEvento['bg'] = '#FF6347'
 
 
 def validaTipoEvento(entrada):
@@ -111,16 +131,26 @@ def validaTipoEvento(entrada):
         if tipoEvento.lower() in tipos_alerta.keys():
             valorTipoEvento = tipos_alerta[tipoEvento.lower()]
         else:
+            print('Valor não foi dito corretamente.')
+            entTipoEvento['text'] = 'Valor não foi dito corretamente.'
+            entTipoEvento['bg'] = '#FF6347'
             return False
 
         entTipoEvento['text'] = tipoEvento.title()
+        entTipoEvento['bg'] = '#90EE90'
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entTipoEvento['text'] = 'Valor inválido, repita'
+        entTipoEvento['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entTipoEvento['text'] = 'Valor não foi dito corretamente.'
+        entTipoEvento['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entTipoEvento['text'] = 'Valor inválido'
+        entTipoEvento['bg'] = '#FF6347'
 
 
 def validaDescricaoEvento(entrada):
@@ -129,16 +159,28 @@ def validaDescricaoEvento(entrada):
     descricaoEvento = None
     try:
         descricaoEvento = entrada
+
+        if descricaoEvento == '':
+            entDescricaoEvento['text'] = 'Insira a descrição!'
+            entDescricaoEvento['bg'] = '#FF6347'
+            return False
         print("Descrição do seu evento: ", descricaoEvento.upper())
         entDescricaoEvento['text'] = descricaoEvento.upper()
+        entDescricaoEvento['bg'] = '#90EE90'
         valorDescEvento = descricaoEvento.upper()
         return True
     except AttributeError:
         print('Valor inválido, repita')
+        entDescEvento['text'] = 'Valor inválido, repita'
+        entDescEvento['bg'] = '#FF6347'
     except ValueError:
         print('Valor não foi dito corretamente.')
+        entDescEvento['text'] = 'Valor não foi dito corretamente.'
+        entDescEvento['bg'] = '#FF6347'
     except:
         print('Valor inválido')
+        entDescEvento['text'] = 'Valor inválido'
+        entDescEvento['bg'] = '#FF6347'
 
 
 # Função para validar e sair da tela em questão.
@@ -194,6 +236,10 @@ def valida():
                             entHoraEvento['text'] = "Falar ex: 10 e 15 (10 para horas e 15 para minutos)"
                             entTipoEvento['text'] = "Tipos disponíveis: Vacina/ Banho/ Outros"
                             entDescricaoEvento['text'] = "Fale um breve descrição do evento"
+                            entDataEvento['bg'] = "white"
+                            entHoraEvento['bg'] = "white"
+                            entTipoEvento['bg'] = "white"
+                            entDescricaoEvento['bg'] = "white"
         print('Saiu')
 
 def insertCrud():
