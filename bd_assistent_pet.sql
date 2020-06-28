@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`dono_pet` (
 CREATE TABLE IF NOT EXISTS `mydb`.`racao` (
   `id_racao` INT NOT NULL,
   `marca_racao` VARCHAR(45) NOT NULL,
-  `quant_racao` FLOAT(3,1) NOT NULL,
-  `quant_diaria_racao` FLOAT(3,1) NOT NULL,
+  `quant_racao` DOUBLE(7,3) NOT NULL,
+  `quant_diaria_racao` DOUBLE(7,3) NOT NULL,
   `data_compra_racao` DATE NULL,
   PRIMARY KEY (`id_racao`)
 ) ENGINE = InnoDB;
@@ -60,7 +60,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `mydb`.`vacinas` (
   `id_vacinas` INT NOT NULL AUTO_INCREMENT,
   `nome_vacinas` VARCHAR(45) NOT NULL,
-  `valor_vacinas` FLOAT(7,2) NOT NULL,
+  `valor_vacinas` DOUBLE(7,2) NOT NULL,
   `observ_vacinas` TEXT NULL,
   `pet_id_pet` INT NOT NULL,
   PRIMARY KEY (`id_vacinas`),
@@ -79,7 +79,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`alimentacao` (
   `id_alimentacao` INT NOT NULL AUTO_INCREMENT,
-  `quantidade_alimentacao` FLOAT(4,1) NOT NULL,
+  `quantidade_alimentacao` DOUBLE(7,3) NOT NULL,
   `data_alimentacao` DATE NOT NULL,
   `horario_alimentacao` TIME NOT NULL,
   `pet_id_pet` INT NOT NULL,
@@ -99,9 +99,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`hist_peso` (
   `id_hist_peso` INT NOT NULL AUTO_INCREMENT,
-  `peso` FLOAT(6,3) NOT NULL,
+  `peso` DOUBLE(7,3) NOT NULL,
   `data` DATE NOT NULL,
-  `racao_diaria` int not null,
   `pet_id_pet` INT NOT NULL,
   PRIMARY KEY (`id_hist_peso`),
 --  INDEX `fk_hist_peso_pet1_idx` (`pet_id_pet` ASC) VISIBLE,
@@ -119,7 +118,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`gastos` (
   `id_gastos` INT NOT NULL,
-  `preco_gastos` FLOAT(6,2) NOT NULL,
+  `preco_gastos` DOUBLE(7,2) NOT NULL,
   `loja_gastos` VARCHAR(30) NOT NULL,
   `desc_gastos` TEXT NULL,
   `data_gastos` DATE NULL,

@@ -1,153 +1,144 @@
-'''                                           Registro de Peso e Ração                                                  '''
-
 from tkinter import *
-import speech_recognition
-from AssistentePessoalPet import crud
-import datetime
+import threading
+import tkinter.messagebox as MessageBox
+from datetime import date
+from petassistant_feature.pet_interfacegrafica import recognizer
+from petassistant_feature.pet_bd import crud
+import mysql
+
+# ======================= FUNCOES DO SISTEMA ======================== #
+def validaPesoPet(entrada):
+    global valorPesoPet
+    valorPesoPet = ''
+    pesoKgPet = None
+    try:
+        entradaDado = entrada.split(' ')
+        kilos = entradaDado[0]
+        gramas = entradaDado[3]
+        pesointeiro = (kilos, gramas)
+        pesoKgPet = ".".join(pesointeiro)
+        print(pesoKgPet)
+        entPeso['text'] = pesoKgPet
+        valorPesoPet = pesoKgPet
+        return True
+    except AttributeError:
+        print('Valor inválido, repita')
+    except ValueError:
+        print('Valor não foi dito corretamente.')
+    except:
+        print('Valor inválido')
+
+def validaNomePet(entrada):
+    global nomePet
+    nomePet = None
+    try:
+        nomePet = entrada
+        print("Nome do pet informado: ", nomePet.title())
+        entNomePet['text'] = nomePet.title()
+        return True
+    except AttributeError:
+        print('Valor inválido, repita')
+    except ValueError:
+        print('Valor não foi dito corretamente.')
+    except:
+        print('Valor inválido')
 
 
-def registro_peso():
-    registro_peso = []  # Salvar no banco.
-    registro_racao = []  # Salvar no banco.
-    reg_rac_min = 0
-    valid = ''
-    valid2 = ''
+'''
+def selectCRUD(nome):
+    global resultado
+    resultado = ''
 
-    '''Validação dos dados----------------------------------------------------------------------------------------------'''
+    mydb = mysql.connect(host='127.0.0.1', user='petuser', password='', db='mydb', charset='utf8mb4')
+    cursor = mydb.cursor(mysql.cursors.DictCursor)
+    resultado = cursor.execute("SELECT id_tipo_pet FROM pet WHERE nome_pet=%s", nome)
+    cursor.execute("commit");
+    mydb.close()
+    print(resultado)
 
-    # Funcao responsavel por ouvir e reconhecer a fala
-    def rec():
-        global valid
-        speech_recognizer = speech_recognition.Recognizer()
+'''
 
-        with speech_recognition.Microphone() as source:
-            audio_final_peso = speech_recognizer.listen(source)
-        try:
-            audio_peso.set(speech_recognizer.recognize_google(audio_final_peso, language='pt'))
-            valid = speech_recognizer.recognize_google(audio_final_peso, language='pt')
-            rac["text"] = ""
 
-        except:
-            rac["text"] = "Não entendi, repita por favor."
+def insertCRUD():
+    hoje = date.today()
+    print(hoje)
 
-    def rec1():
-        global valid2
-        speech_recognizer = speech_recognition.Recognizer()
-
-        with speech_recognition.Microphone() as source:
-            audio_final_rac = speech_recognizer.listen(source)
-        try:
-            audio_rac.set(speech_recognizer.recognize_google(audio_final_rac, language='pt'))
-            valid2 = speech_recognizer.recognize_google(audio_final_rac, language='pt')
-            rac["text"] = ""
-
-        except:
-            rac["text"] = "Não entendi, repita por favor."
-
-    def clear():
-        audio_peso.set("Diga o peso")
-        audio_rac.set('Diga a quantidade de ração')
-
-    def insert(valid,valid2):
-
-        peso = valid
-        racao = valid2
-        id_pet = "8"
-        data = datetime.datetime.now().strftime("%Y-%m-%d")
-
+    if valorPesoPet == "":
+        MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
+    else:
         nome_tabela = 'hist_peso'
-
-        dados = {'peso': peso, 'data': data,'racao_diaria': racao,'pet_id_pet': id_pet}
-
+        dados = {'peso': valorPesoPet, 'data': hoje, 'pet_id_pet': 14}
         crud.insert(nome_tabela, dados)
 
-    def validad():
 
-        global reg_rac_min
-        global valid
-        global valid2
+# Função para validar e sair da tela em questão.
+def valida():
+    confirmado = False
+    while confirmado is not True:
+        # Caso seja necessário colocar mais campos no registro, deverá apenas seguir a forma a baixo, e colocar os dados e a função.
+        campos = {
+            'Peso do Pet': {'validacao': validaPesoPet, 'mensagem': 'Qual o peso do seu Pet?'},
+            'Nome do Pet': {'validacao': validaNomePet, 'mensagem': 'Qual o nome do pet?'}}
 
-        if valid.isalpha() == True and valid2.isalpha() == True:
+#       Laço para percorrer todos os campos pela ordem da chave.
+        valido = False
+        while valido is not True:
+            for campo in campos.keys():
+                # Seleção do campo.
+                dados = campos[campo]
+                print(dados['mensagem'])
+                # mensagem(dados['mensagem'])
+                texto = recognizer.recognizer()
 
-            lb_peso["text"] = 'Dado inválido, digite apenas números entre (0-9).'
-            lb_racao["text"] = 'Dado inválido, digite apenas números entre (0-9).'
+#               Validação do comando dito.
+                try:
+                    metodo = dados['validacao']
+                    valido = metodo(texto)
+                except:
+                    print('Erro no método de validação')
+                    break
 
-        elif valid.isalpha() == True and valid2.isalpha() == False:
+#           Validação dos dados para sair da tela.
+            if valido:
+                print('Deseja confirmar sim ou não')
+                texto = recognizer.recognizer()
+                if texto.lower() == 'sim':
+                    valido = True
+                    confirmado = True
+                    print(valorPesoPet)
+                    insertCRUD()
+                    janela.after(5000, lambda: janela.destroy())
+                else:
+                    entPeso['text'] = "Diga o peso do pet, ex: 12 Kg e 500 gramas"
+                    entNomePet['text'] = "Diga o nome do pet"
+    print('Saiu')
 
-            lb_peso["text"] = 'Dado inválido, digite apenas números entre (0-9).'
-            lb_racao["text"] = ''
 
-        elif valid.isalpha() == False and valid2.isalpha() == True:
+t = threading.Thread(name='my_service', target=valida)
+t.start()
 
-            lb_peso["text"] = ''
-            lb_racao["text"] = 'Dado inválido, digite apenas números entre (0-9).'
 
-        else:
+# ========================== JANELA TKINTER ========================== #
+janela = Tk()
+janela.geometry("350x500+500+200")
+janela.wm_title("Assistente Pet")
+lblTitulo = Label(janela, text="REGISTRO DE PESO DO PET", font=("Arial", 10, "bold")).place(x=70, y=10)
 
-            rac["text"] = ''
-            lb_peso["text"] = ''
-            lb_racao["text"] = ''
-            save["text"] = 'Dados salvos com sucesso.'
 
-            str(valid2)
-            registro_racao.append(valid2)
+# ===================== VARIAVEIS LOCAIS E GLOBAIS ===================== #
+global entPeso
+entPeso = StringVar()
+global entNomePet
+entNomePet = StringVar()
 
-            str(valid)
-            registro_peso.append(valid)
+# Labels de idenficação dos campos
+lblPeso = Label(janela, text="Qual o peso do pet:", font=("Arial", 10, "bold")).place(x=10, y=50)
+#lblNomePet = Label(janela, text="Qual o nome do pet:", font=("Arial", 10, "bold")).place(x=10, y=130)
 
-            #valid: peso
-            #valid2: racao
-            insert(valid,valid2)
+# Labels que aparecerão as respostas
+entPeso = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Diga o peso do pet, ex: 12 Kg e 500 gramas")
+entPeso.place(x=10, y=80)
+entNomePet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Diga o nome do pet")
+entNomePet.place(x=10, y=160)
 
-    '''Interface gráfica------------------------------------------------------------------------------------------------'''
-
-    janela = Tk()
-
-    audio_peso = StringVar()
-    audio_rac = StringVar()
-    audio_peso.set("Diga o peso")
-    audio_rac.set('Diga a quantidade de ração')
-
-    reg_peso = Label(janela, bg='white', width='50', textvariable=audio_peso)
-    reg_peso.place(x=40, y=130)
-
-    reg_rac = Label(janela, bg='white', width='50', textvariable=audio_rac)
-    reg_rac.place(x=40, y=220)
-
-    # Textos de cada campo.
-    tex_pes = Label(janela, text="Peso:")
-    tex_pes.place(x=40, y=105)
-
-    tex_reg = Label(janela, text="Ração:")
-    tex_reg.place(x=40, y=195)
-
-    # Mensagens de erro ou informativa para o usuário.
-    lb_peso = Label(janela, text='')
-    lb_peso.place(x=170, y=155)
-
-    lb_racao = Label(janela, text='')
-    lb_racao.place(x=170, y=245)
-
-    save = Label(janela, text='')
-    save.place(x=155, y=340)
-
-    rac = Label(janela, text='')
-    rac.place(x=35, y=280)
-
-    # Botão de salvamento
-    bt = Button(janela, bg='green', width=15, text="OK", command=validad)
-    bt.place(x=100, y=370)
-
-    clear_bt = Button(janela, bg='red', text='Limpar campos', width=15, command=clear)
-    clear_bt.place(x=260, y=370)
-
-    peso_bt = Button(janela, text='Diga o peso', width=30, command=rec)
-    peso_bt.place(x=120, y=420)
-
-    racao_bt = Button(janela, text='Diga a quantidade', width=30, command=rec1)
-    racao_bt.place(x=120, y=460)
-
-    janela.title("Registro")
-    janela.geometry("500x500+300+300")
-    janela.mainloop()
-
+janela.mainloop()
