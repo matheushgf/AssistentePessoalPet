@@ -1,12 +1,11 @@
 #IMPORTAÇÃO DAS BIBILOTECAS NECESSARIAS
 
 from tkinter import*
-import tkinter
 import random
 import time
 import datetime
 import recognizer
-import registro_peso
+
 
 #INICIALIZANDO O OBJETO GRAFICO DA TELA
 

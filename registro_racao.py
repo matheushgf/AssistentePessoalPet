@@ -2,8 +2,8 @@ from tkinter import *
 import threading
 import tkinter.messagebox as MessageBox
 from datetime import date
-from petassistant_develop import recognizer
-from petassistant_develop import crud
+import recognizer
+import crud
 
 
 # ======================= FUNCOES DO SISTEMA ======================== #

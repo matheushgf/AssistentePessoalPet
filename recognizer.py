@@ -1,7 +1,12 @@
 import speech_recognition
 import importlib
 
-command_lists = {'registro de raçâo':{'nome_funcao':'registro_racao','nome_arquivo':'registro_racao'},'registro de lembrete':{'nome_funcao':'lembrete_pet', 'nome_arquivo':'lembrete_pet'},'clima':{'nome_funcao':'weather_app', 'nome_arquivo':'weather_app'},'registro de peso':{'nome_funcao':'registro_peso', 'nome_arquivo':'registro_peso'},'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}}
+command_lists = {'registro de ração':{'nome_funcao':'registro_racao','nome_arquivo':'registro_racao'},
+                 'registro de lembrete':{'nome_funcao':'lembrete_pet', 'nome_arquivo':'lembrete_pet'},
+                 'clima':{'nome_funcao':'weather_app', 'nome_arquivo':'weather_app'},
+                 'registro de peso':{'nome_funcao':'registro_peso', 'nome_arquivo':'registro_peso'},
+                 'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}
+                 }
 
 def recognizer():
         try:

@@ -2,8 +2,8 @@ from tkinter import *
 import threading
 import tkinter.messagebox as MessageBox
 from datetime import date
-from petassistant_feature.pet_interfacegrafica import recognizer
-from petassistant_feature.pet_bd import crud
+import recognizer
+import crud
 import mysql
 
 # ======================= FUNCOES DO SISTEMA ======================== #
@@ -42,21 +42,6 @@ def validaNomePet(entrada):
         print('Valor não foi dito corretamente.')
     except:
         print('Valor inválido')
-
-
-'''
-def selectCRUD(nome):
-    global resultado
-    resultado = ''
-
-    mydb = mysql.connect(host='127.0.0.1', user='petuser', password='', db='mydb', charset='utf8mb4')
-    cursor = mydb.cursor(mysql.cursors.DictCursor)
-    resultado = cursor.execute("SELECT id_tipo_pet FROM pet WHERE nome_pet=%s", nome)
-    cursor.execute("commit");
-    mydb.close()
-    print(resultado)
-
-'''
 
 
 def insertCRUD():

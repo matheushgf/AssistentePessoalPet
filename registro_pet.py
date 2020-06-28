@@ -1,8 +1,8 @@
 from tkinter import *
 import threading
 import tkinter.messagebox as MessageBox
-from petassistant_develop import recognizer
-from petassistant_develop import crud
+import recognizer
+import crud
 
 # ---------------------------- FUNÇÕES DO CADASTRO ---------------------------- #
 #Validação dos dados recebidos pelo laço valida()
