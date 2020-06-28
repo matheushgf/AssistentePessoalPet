@@ -1,10 +1,11 @@
 #IMPORTAÇÃO DAS BIBILOTECAS NECESSARIAS
 
-from tkinter import *
+from tkinter import*
 import random
 import time
 import datetime
-from AssistentePessoalPet import recognizer
+import recognizer
+#import program_not
 
 
 #INICIALIZANDO O OBJETO GRAFICO DA TELA
@@ -20,9 +21,11 @@ root.configure(background='#707070')
 Top = Frame(root, width=400, height= 25, bd=0)
 Top.pack(side=TOP)
 Top.configure(background='black')
+
 Top2 = Frame(root, width=400, height=75)
 Top2.pack(side=TOP)
 Top2.configure(background='#707070')
+
 Top3 = Frame(root, width=400, height=25)
 Top3.pack(side=TOP)
 Top3.configure(background='blue')
@@ -31,6 +34,7 @@ Top3.configure(background='blue')
 Bottom = Frame(root, width=400, height= 25, bd=1)
 Bottom.pack(side=BOTTOM)
 Bottom.configure(background='black')
+
 Bottom2 = Frame(root, width=400, height= 12.5, bd=1)
 Bottom2.pack(side=BOTTOM)
 Bottom2.configure(background='#707070')
@@ -56,13 +60,24 @@ lblRodapeText.grid(row=0, column=0)
 
 #FUNÇÃO PARA VALIDAÇÃO DE COMANDOS
 def button_click():
-    resultado = recognizer.recognizer()
-    mensagem = recognizer.command_verification(resultado)
-    label2.set(mensagem)
+    while True:
+        try:
+            resultado = recognizer.recognizer()
+            mensagem = recognizer.command_verification(resultado)
+            label2.set(mensagem)
+            break
+        except:
+            print("Voz não detectada. Repita novamente.")
+            label2.set("Voz não detectada. Repita novamente.")
 
 #BOTÕES INFERIORES
-reconActivate = Button(Top3,padx=1, pady=110, bd=1, fg='black', font=('arial',12), text="ATIVAR RECONHECIMENTO",
-                       command=button_click,image=btnimage).grid(row=0, column=0)
+
+reconActivate = Button(Top3,padx=1, pady=110, bd=1, fg='black', font=('arial',12),
+text="ATIVAR RECONHECIMENTO",command=button_click,image=btnimage).grid(row=0, column=0)
+
+
 
 #FINALIZAÇÃO DA TELA DE SISTEMA
+
 root.mainloop()
+#program_not.execute_alerta()

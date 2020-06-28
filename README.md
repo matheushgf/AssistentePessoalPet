@@ -47,3 +47,11 @@ Alegria para o pet, facilidades para o dono.
 * Tela de registro do peso/ração com reconhecimento de voz e gravação no BD
 * Estrutura CRUD com funções dinâmicas (prontas para serem usadas em outras etapas)
 * Mudança na estrutura do BD
+
+### Sprint 05 - Alterações:
+* Correção de Exception's
+* Validação de Dados e retorno gráfico para o usuário
+* Tela de Registro de Lembrete
+* Tela de Registro de Ração
+* Tela de Clima Pet, que mostra o melhor horário pra passear com o Pet
+* Correção de fluxo de dados com o usuário (menos clicks)

@@ -5,12 +5,10 @@ import tkinter.messagebox as MessageBox
 def insert(nome_tabela, dados):
     campos = ', '.join(list(dados.keys()))
     valores = []
-
     for chave in dados:
         valores.append('"' + str(dados[chave]) + '"')
-
     valores = ', '.join(valores)
-    mydb = mysql.connect(host='127.0.0.1', user='petuser', password='', db='mydb', charset='utf8mb4')
+    mydb = mysql.connect(host='127.0.0.1', user='root', password='', db='mydb', charset='utf8mb4')
     cursor = mydb.cursor(mysql.cursors.DictCursor)
     cursor.execute('INSERT INTO {} ({}) VALUES ({})'.format(nome_tabela, campos, valores))
     cursor.execute("commit");
