@@ -2,6 +2,7 @@ from tkinter import *
 import threading
 import tkinter.messagebox as MessageBox
 from datetime import date
+import datetime
 import recognizer
 import crud
 import pymysql as mysql
@@ -190,11 +191,25 @@ def insertCRUD():
     if str(valorMarcaRacao)=="" or valorSacoRacao=="" or valorRacaoDia=="":
         MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
     else:
+        #Insert na tabela ração
         nome_tabela = 'racao'
         dados = {'marca_racao': valorMarcaRacao, 'quant_racao': valorSacoRacao, 'quant_diaria_racao': valorRacaoDia,
              'data_compra_racao': hoje}
         crud.insert(nome_tabela, dados)
 
+        #Cálculo de alerta
+        quant_racao = float(dados['quant_racao'])
+        quant_racao_diaria = float(dados['quant_diaria_racao'])
+
+        dias_duracao = int((quant_racao/quant_racao_diaria)-1)
+        dias_duracao = datetime.timedelta(days = dias_duracao)
+        previsao_acabar = hoje + dias_duracao
+
+        # Insert na tabela de alerta para mandar as notificações
+        nome_tabela = 'alerta'
+        dados = {'data_alerta': previsao_acabar, 'id_dono': 2, 'id_tipo_alerta': 4, 'situacao': 1,
+                 'descricao_alerta': 'Alerta de Ração'}
+        crud.insert(nome_tabela, dados)
 
 t = threading.Thread(name='my_service', target=valida)
 t.start()

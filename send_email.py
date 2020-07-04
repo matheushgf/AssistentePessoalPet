@@ -3,13 +3,47 @@ from email.mime.text import MIMEText
 import smtplib
 import pymysql as mysql
 from plyer import notification
+import datetime
 
-def recebe_categoria():
+
+
+def recebe_hora():
+    print('Entrou')
+
+    global id_alerta
+    global id_tipo_alerta
+    global data
+    global id_dono
+    id_alerta = 0
+
     mydb = mysql.connect(host='localhost', user='root', password='', db='mydb', charset='utf8mb4')
 
     cursor = mydb.cursor()
 
-    resultado = cursor.execute("select categoria_alerta from tipo_alerta WHERE id_tipo_alerta = "+str(id_tipo_alert))
+    cursor.execute("select id_alerta, data_alerta, id_dono, id_tipo_alerta from alerta WHERE id_dono = 2 and DATE_SUB(data_alerta, INTERVAL 24 HOUR) <= NOW() and situacao = 1 ")
+
+    resultado = cursor.fetchall()
+
+    while resultado:
+        for linha in resultado:
+            id_alerta = linha[0]
+            data = linha[1]
+            id_dono = linha[2]
+            id_tipo_alerta = linha[3]
+            #data_alerta = data.strftime("%d-%m-%Y")
+            #horario_alerta = data.strftime("%H:%M:%S")
+
+            print('saiu')
+            return True
+
+    mydb.close()
+def recebe_categoria():
+
+    mydb = mysql.connect(host='localhost', user='root', password='', db='mydb', charset='utf8mb4')
+
+    cursor = mydb.cursor()
+
+    cursor.execute("select categoria_alerta from tipo_alerta WHERE id_tipo_alerta = "+str(id_tipo_alerta))
 
     resultado = cursor.fetchall()
 
@@ -31,6 +65,11 @@ def recebe_categoria():
 
         titulo_email = "Alerta! - AssistentePessoalPet"
         texto_email = "Algo está marcado para amanhã do seu melhor amigo! Já se planeja para leva-lo."
+
+    elif categoria_alerta == "Ração":
+
+        titulo_email = "Alerta de Ração! - AssistentePessoalPet"
+        texto_email = "Não deixe seu melhor amigo com fome! A ração dele está acabando."
 
     mydb.close()
 
@@ -79,25 +118,41 @@ def notifier(texto):
         title=titulo_notify,
         message=texto_notify,
         app_name='AssistentePessoalPet',
-        app_icon='pet_store_shop_building_animal_icon_124625.ico'
+        app_icon='icone_pet.ico'
     )
 
-def execute_email(email, id_alerta, id_tipo_alerta):
-
-    global email_alerta
-    global id_alert
-    global id_tipo_alert
-    global titulo_email
-    global texto_email
-    global categoria
-
-    email_alerta = email
-    id_alert = id_alerta
-    id_tipo_alert = int(id_tipo_alerta)
+def execute_email(email):
 
     texto = recebe_categoria()
-    #print(titulo_email)
-    #print(texto_email)
 
     send_email(texto)
     notifier(texto)
+
+def update_alerta():
+
+    mydb = mysql.connect(host='localhost', user='root', password='', db='mydb', charset='utf8mb4')
+    cursor = mydb.cursor(mysql.cursors.DictCursor)
+    cursor.execute("UPDATE alerta SET situacao = 0 WHERE id_alerta = %s",(id_alerta))
+    cursor.execute("commit");
+    mydb.close()
+
+#Chamar essa função para mandar o email, passando o email de destino
+def execute_alerta(email_dono):
+
+    global email_alerta
+
+    email_alerta = email_dono
+
+    while True:
+        recebe_hora()
+        print(id_alerta)
+        if id_alerta == 0:
+
+            return True
+
+        else:
+
+            email = email_dono
+            execute_email(email)
+            update_alerta()
+            return True
