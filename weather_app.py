@@ -173,7 +173,7 @@ def weather_app():
 
     root.mainloop()
 
-weather_app()
+#weather_app()
 
         
 

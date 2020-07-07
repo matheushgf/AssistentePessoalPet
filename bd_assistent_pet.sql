@@ -10,7 +10,7 @@ USE `mydb` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`dono_pet` (
   `id_dono` INT NOT NULL AUTO_INCREMENT,
   `nome_dono` VARCHAR(45) NOT NULL,
-  `endereço_dono` VARCHAR(100) NOT NULL,
+  `endereco_dono` VARCHAR(100) NOT NULL,
   `telefone_dono` VARCHAR(14) NOT NULL,
   PRIMARY KEY (`id_dono`)
 ) ENGINE = InnoDB;

@@ -61,10 +61,10 @@ def validaNomePet(entrada):
             entNomePet['text'] = 'Insira o Nome!'
             entNomePet['bg'] = '#FF6347'
             return False
-        print("Nome do Pet: ", nome.upper())
-        entNomePet['text'] = nome.upper()
+        print("Nome do Pet: ", nome.title())
+        entNomePet['text'] = nome.title()
         entNomePet['bg'] = '#90EE90'
-        valorNomePet = nome.upper()
+        valorNomePet = nome.title()
         return True
     except AttributeError:
         print('Valor inválido, repita')

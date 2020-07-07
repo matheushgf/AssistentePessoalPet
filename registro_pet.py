@@ -127,7 +127,7 @@ def insertCRUD():
         MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
     else:
         nome_tabela = 'pet'
-        dados = {'nome_pet': valorNomePet, 'id_tipo_pet': valorTipoPet, 'id_dono': 3}
+        dados = {'nome_pet': valorNomePet, 'id_tipo_pet': valorTipoPet}
         crud.insert(nome_tabela, dados)
 
 # Thread para rodar duas ações ao mesmo tempo.

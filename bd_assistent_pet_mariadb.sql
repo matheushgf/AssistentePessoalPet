@@ -10,8 +10,8 @@ USE `mydb` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`dono_pet` (
   `id_dono` INT AUTO_INCREMENT PRIMARY KEY,
   `nome_dono` VARCHAR(45) NOT NULL,
-  `endereço_dono` VARCHAR(100) NOT NULL,
-  `telefone_dono` VARCHAR(14) NOT NULL,
+  `endereco_dono` VARCHAR(100) NOT NULL,
+  `telefone_dono` VARCHAR(14) NOT NULL
 );
 
 
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`racao` (
   `marca_racao` VARCHAR(45) NOT NULL,
   `quant_racao` DOUBLE(7,3) NOT NULL,
   `quant_diaria_racao` DOUBLE(7,3) NOT NULL,
-  `data_compra_racao` DATE NULL,
+  `data_compra_racao` DATE NULL
 );
 
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`racao` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`tipo_pet` (
   `id_tipo_pet` INT AUTO_INCREMENT PRIMARY KEY,
-  `categoria_tipo_pet` VARCHAR(50) NOT NULL,
+  `categoria_tipo_pet` VARCHAR(50) NOT NULL
 );
 
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`gastos` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`tipo_alerta` (
   `id_tipo_alerta` INT AUTO_INCREMENT PRIMARY KEY,
-  `categoria_alerta` VARCHAR(50) NOT NULL,
+  `categoria_alerta` VARCHAR(50) NOT NULL
 );
 
 
