@@ -7,6 +7,13 @@ import datetime
 import recognizer
 import send_email
 import threading
+import pyttsx3
+
+def speech():
+    label2audio = ('Diga o comando que você quer executar após clicar no microfone')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
 
 def notifier():
     email = "cesar.ruan84@gmail.com"
@@ -80,6 +87,7 @@ def button_click():
         except:
             print("Voz não detectada. Repita novamente.")
             label2.set("Voz não detectada. Repita novamente.")
+            button_click()
 
 #BOTÕES INFERIORES
 
@@ -87,7 +95,8 @@ reconActivate = Button(Top3,padx=1, pady=110, bd=1, fg='black', font=('arial',12
 text="ATIVAR RECONHECIMENTO",command=button_click,image=btnimage).grid(row=0, column=0)
 
 
-
+t = threading.Thread(target=speech)
+t.start()
 #FINALIZAÇÃO DA TELA DE SISTEMA
 
 root.mainloop()

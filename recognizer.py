@@ -1,5 +1,8 @@
 import speech_recognition
 import importlib
+import pyttsx3
+import threading
+import pyttsx3
 
 command_lists = {'registro de ração':{'nome_funcao':'registro_racao','nome_arquivo':'registro_racao'},
                  'registro de lembrete':{'nome_funcao':'lembrete_pet', 'nome_arquivo':'lembrete_pet'},
@@ -7,6 +10,12 @@ command_lists = {'registro de ração':{'nome_funcao':'registro_racao','nome_arq
                  'registro de peso':{'nome_funcao':'registro_peso', 'nome_arquivo':'registro_peso'},
                  'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}
                  }
+
+def speech():
+    label2audio = ('Comando não encontrado')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
 
 def recognizer():
         try:
@@ -38,4 +47,6 @@ def command_verification(user_command):
                 except:
                         return 'Erro ao executar método'
         else:
+                t = threading.Thread(target=speech)
+                t.start()
                 return 'Comando não encontrado'

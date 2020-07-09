@@ -6,9 +6,40 @@ import datetime
 import recognizer
 import crud
 import pymysql as mysql
-
+import pyttsx3
 
 # ======================= FUNCOES DO SISTEMA ======================== #
+
+def speech():
+    label2audio = ('Qual a marca da ração?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechQuantia():
+    label2audio = ('Qual a quantia total do saco de ração?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechDiario():
+    label2audio = ('Qual o valor diário de ração entregue ao pet?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechBanco():
+    label2audio = ('Operação confirmada com sucesso')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechConfirma():
+    label2audio = ('Deseja comfirmar? Sim ou não')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
 def validaMarcaRacao(entrada):
     global valorMarcaRacao
     valorMarcaRacao = str('')
@@ -24,6 +55,7 @@ def validaMarcaRacao(entrada):
         entMarcaRacao['text'] = marcaRacao.title()
         entMarcaRacao['bg'] = '#90EE90'
         valorMarcaRacao = marcaRacao.title()
+        speechQuantia()
         return True
     except AttributeError:
         print('Valor inválido, repita')
@@ -72,6 +104,7 @@ def validaSacoRacao(entrada):
         entSacoRacao['text'] = '{:.3f}'.format(racaoPct)
         entSacoRacao['bg'] = '#90EE90'
         valorSacoRacao = '{:.3f}'.format(racaoPct)
+        speechDiario()
         return True
     except AttributeError:
         print('Valor inválido, repita')
@@ -168,12 +201,14 @@ def valida():
                 confirmado_valido = False
                 while confirmado_valido is not True:
                     print('Deseja confirmar sim ou não')
+                    speechConfirma()
                     texto = recognizer.recognizer()
                     if texto.lower() == 'sim' or texto.lower() == 'não':
                         confirmado_valido = True
                         if texto.lower() == 'sim':
                             valido = True
                             confirmado = True
+                            speechBanco()
                             insertCRUD()
                             janela.after(5000, lambda: janela.destroy())
                         else:
@@ -183,6 +218,7 @@ def valida():
                             entMarcaRacao['bg'] = "white"
                             entSacoRacao['bg'] = "white"
                             entRacaoDiario['bg'] = "white"
+                            speech()
             print('Saiu')
 
 
@@ -246,5 +282,7 @@ entSacoRacao.place(x=10, y=160)
 entRacaoDiario = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Qual o valor de ração diário entregue ao pet?")
 entRacaoDiario.place(x=10, y=240)
 
-janela.mainloop()
+t = threading.Thread(target=speech)
+t.start()
 
+janela.mainloop()

@@ -5,6 +5,7 @@ import datetime
 from tkinter import *
 from recognizer import *
 import speech_recognition
+import pyttsx3
 
 accuweatherAPIKey = 'eKzK8IAPh3cqE26tBucNy2oDRNvwJugM'
 dias_semana = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
@@ -150,14 +151,21 @@ def weather_app():
     codigoLocal = pegarCodigoLocal(coordenadas['lat'], coordenadas['long'])
     pegarPrevisao = pegarPrevisao12Horas(str(codigoLocal['codigoLocal']))
     pegarMelhorHora = melhorHora(pegarPrevisao)
-    horaIdealEscolhida = f"O melhor horário para passear com o seu PET é {pegarMelhorHora['horaIdeal']}."
+    horaIdealEscolhida = f"O melhor horário para passear com o seu animal é {pegarMelhorHora['horaIdeal']}."
     print(horaIdealEscolhida)
-    tempIdealEscolhida = f"A previsão de temperatura neste momento será de {pegarMelhorHora['temperatura']}ºC."
+    tempIdealEscolhida = f"A previsão de temperatura neste momento será de {pegarMelhorHora['temperatura']} graus."
     print(tempIdealEscolhida)
 
     # INICIALIZANDO O OBJETO GRAFICO DA TELA
 
     root = Tk()
+
+    textoFalado = f"{horaIdealEscolhida} e {tempIdealEscolhida}"
+    def speech():
+        label2audio = (textoFalado)
+        en = pyttsx3.init()
+        en.say(label2audio)
+        en.runAndWait()
 
     # PASSANDO AS MEDIDAS E CONFIGURAÇÃO DA TELA
     root.geometry("400x320+0+0")
@@ -165,15 +173,19 @@ def weather_app():
     root.configure(background='#707070')
 
     # CONFIGURANDO O TEMPORIZADOR DE FECHAMENTO DA TELA
-    root.after(5000,lambda:root.destroy())
+    root.after(15000,lambda:root.destroy())
 
     lblTitulo = Label(root, font=('arial', 9), text=horaIdealEscolhida, width='55').place(x=5, y=90, height=50)
 
     lblTitulo2 = Label(root, font=('arial', 9), text=tempIdealEscolhida, width='55').place(x=5, y=160, height=50)
 
+    t = threading.Thread(target=speech)
+    t.start()
     root.mainloop()
 
-weather_app()
+
+
+#weather_app()
 
         
 
