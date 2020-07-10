@@ -77,7 +77,7 @@ def validaSacoRacao(entrada):
     racaoPct = None
     try:
         if entrada == '':
-            entSacoRacao['text'] = 'Insira o Marca da Ração!'
+            entSacoRacao['text'] = 'Diga o peso total do saco de ração!'
             entSacoRacao['bg'] = '#FF6347'
             return False
         entradaDado = entrada.split()
@@ -200,7 +200,7 @@ def valida():
             if valido:
                 confirmado_valido = False
                 while confirmado_valido is not True:
-                    print('Deseja confirmar sim ou não')
+                    print('Deseja confirmar? \n Sim ou Não?')
                     speechConfirma()
                     texto = recognizer.recognizer()
                     if texto.lower() == 'sim' or texto.lower() == 'não':
@@ -210,7 +210,7 @@ def valida():
                             confirmado = True
                             speechBanco()
                             insertCRUD()
-                            janela.after(5000, lambda: janela.destroy())
+                            janela.after(1000, lambda: janela.destroy())
                         else:
                             entMarcaRacao['text'] = "Qual a marca da ração comprada?"
                             entSacoRacao['text'] = "Qual o peso do saco de ração comprado?"

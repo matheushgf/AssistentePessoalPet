@@ -158,7 +158,7 @@ def valida():
             if valido:
                 confirmado_valido = False
                 while confirmado_valido is not True:
-                    print('Deseja confirmar sim ou não')
+                    print('Deseja confirmar? \n Sim ou Não')
                     speechConfirma()
                     texto = recognizer.recognizer()
                     if texto.lower() == 'sim' or texto.lower() == 'não':
@@ -168,7 +168,7 @@ def valida():
                             confirmado = True
                             speechBanco()
                             insertCRUD()
-                            janela.after(5000, lambda: janela.destroy())
+                            janela.after(1000, lambda: janela.destroy())
                         else:
                             entPeso['text'] = "Diga o peso do pet, ex: 12 Kg e 500 gramas"
                             entNomePet['text'] = "Diga o nome do pet"

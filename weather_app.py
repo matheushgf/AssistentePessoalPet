@@ -183,8 +183,6 @@ def weather_app():
     t.start()
     root.mainloop()
 
-
-
 #weather_app()
 
         

@@ -8,7 +8,8 @@ command_lists = {'registro de ração':{'nome_funcao':'registro_racao','nome_arq
                  'registro de lembrete':{'nome_funcao':'lembrete_pet', 'nome_arquivo':'lembrete_pet'},
                  'clima':{'nome_funcao':'weather_app', 'nome_arquivo':'weather_app'},
                  'registro de peso':{'nome_funcao':'registro_peso', 'nome_arquivo':'registro_peso'},
-                 'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'}
+                 'registro de animal':{'nome_funcao':'registro_pet', 'nome_arquivo':'registro_pet'},
+                 'dicas de filme':{'nome_funcao':'dicasDeFilme', 'nome_arquivo':'api6sem'}
                  }
 
 def speech():

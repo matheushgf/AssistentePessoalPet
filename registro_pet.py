@@ -27,7 +27,7 @@ def speechTipo():
 
 
 def speechConfirma():
-    label2audio = ('Deseja comfirmar? Sim ou não')
+    label2audio = ('Deseja confirmar? \n Sim ou Não?')
     en = pyttsx3.init()
     en.say(label2audio)
     en.runAndWait()
@@ -40,7 +40,6 @@ def validaNomePet(entrada):
     nome = None
     try:
         nome = entrada
-
         if entrada == '':
             entNomePet['text'] = 'Insira o Nome!'
             entNomePet['bg'] = '#FF6347'
@@ -99,7 +98,7 @@ def validaTipoPet(entrada):
         entTipoPet['bg'] = '#FF6347'
 
 
-# Laço de repeticação que irá perguntar sobre os intens em tela e irá chamar as funçõe responsáveis para tratamento.
+# Laço de repeticação que irá perguntar sobre os itens em tela e irá chamar as funçõe responsáveis para tratamento.
 def valida():
     confirmado = False
     while confirmado is not True:
@@ -133,7 +132,7 @@ def valida():
             if valido:
                 confirmado_valido = False
                 while confirmado_valido is not True:
-                    print('Deseja confirmar sim ou não')
+                    print('Deseja confirmar? \n Sim ou Não?')
                     speechConfirma()
                     texto = recognizer.recognizer()
                     if texto.lower() == 'não' or texto.lower() == 'sim':
@@ -143,7 +142,7 @@ def valida():
                             confirmado = True
                             speechBanco()
                             insertCRUD()
-                            janela.after(5000, lambda: janela.destroy())
+                            janela.after(1000, lambda: janela.destroy())
                         else:
                             entNomePet['text'] = "Qual o nome do seu pet?"
                             entTipoPet['text'] = "Que tipo é o pet?"

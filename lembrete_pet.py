@@ -29,7 +29,7 @@ def speechTipo():
 
 
 def speechDescricao():
-    label2audio = ('Qual a descricao para o evento?')
+    label2audio = ('Qual a descrição para o evento?')
     en = pyttsx3.init()
     en.say(label2audio)
     en.runAndWait()
@@ -43,7 +43,7 @@ def speechBanco():
 
 
 def speechConfirma():
-    label2audio = ('Deseja comfirmar? Sim ou não')
+    label2audio = ('Deseja comfirmar? \n Sim ou não?')
     en = pyttsx3.init()
     en.say(label2audio)
     en.runAndWait()
@@ -87,8 +87,8 @@ def validaDataEvento(entrada):
 
         ano_atual = int(datetime.datetime.now().strftime("%Y"))
         if ano < ano_atual:
-            print("Você não fazer lembretes no passado!")
-            entDataEvento['text'] = 'Você não fazer lembretes no passado!'
+            print("Você não pode fazer lembretes no passado!")
+            entDataEvento['text'] = 'Você não pode fazer lembretes no passado!'
             entDataEvento['bg'] = '#FF6347'
             return False
 
@@ -268,7 +268,7 @@ def valida():
             if valido:
                 confirmado_valido = False
                 while confirmado_valido is not True:
-                    print('Deseja confirmar sim ou não')
+                    print('Deseja confirmar? \n Sim ou Não?')
                     speechConfirma()
                     texto = recognizer.recognizer()
                     if texto.lower() == 'não' or texto.lower() == 'sim':
@@ -278,12 +278,12 @@ def valida():
                             confirmado = True
                             speechBanco()
                             insertCrud()
-                            janela.after(5000, lambda: janela.destroy())
+                            janela.after(1000, lambda: janela.destroy())
                         else:
                             entDataEvento['text'] = "Falar ex: 26 do Junho de 2000"
                             entHoraEvento['text'] = "Falar ex: 10 e 15 (10 para horas e 15 para minutos)"
                             entTipoEvento['text'] = "Tipos disponíveis: Vacina/ Banho/ Outros"
-                            entDescricaoEvento['text'] = "Fale um breve descrição do evento"
+                            entDescricaoEvento['text'] = "Fale uma breve descrição do evento"
                             entDataEvento['bg'] = "white"
                             entHoraEvento['bg'] = "white"
                             entTipoEvento['bg'] = "white"
@@ -342,7 +342,7 @@ lblTipo = Label(janela, text="Qual é o tipo do evento:", font=("Arial", 10, "bo
 lblDescricao = Label(janela, text="Uma descrição para o evento:", font=("Arial", 10, "bold")).place(x=10, y=290)
 
 # Labels que aparecerão as respostas para nome e tipo do pet
-entDataEvento = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Falar ex: 26 do 06 de 2000")
+entDataEvento = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Falar ex: 26 de julho de 2000")
 entDataEvento.place(x=10, y=80)
 
 entHoraEvento = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Falar ex: 10 e 15 (10 "
@@ -354,7 +354,7 @@ entTipoEvento = Label(janela, font=("Arial", 10), bg='white', width='40', height
 entTipoEvento.place(x=10, y=240)
 
 entDescricaoEvento = Label(janela, font=("Arial", 10), bg='white', width='40', height='2',
-                           text="Fale um breve descrição do evento")
+                           text="Fale uma breve descrição do evento")
 entDescricaoEvento.place(x=10, y=320)
 
 t = threading.Thread(target=speech)
