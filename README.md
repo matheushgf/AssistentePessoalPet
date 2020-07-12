@@ -55,3 +55,10 @@ Alegria para o pet, facilidades para o dono.
 * Tela de Registro de Ração
 * Tela de Clima Pet, que mostra o melhor horário pra passear com o Pet
 * Correção de fluxo de dados com o usuário (menos clicks)
+
+### Sprint 06 - Finalização:
+* Tela de gráfico de peso utilizando dados do MYSQL
+* Tela de dicas sobre pets
+* Finalização das notificações por email dos registros de lembretes 
+* Inclusão de sintetização em todas as telas e exclusão de botões de navegação
+* Integração com a API do sexto semestre e criação da tela com Dicas de Filmes
