@@ -22,19 +22,20 @@ def validaTempo(entrada):
             print('Valor mencionado foi (s): ', entrada.title())
             entTempoGrafico['text'] = tempoGrafico.title()
             entTempoGrafico['bg'] = '#90EE90'
-            sqlscript = 'SELECT * FROM mydb.hist_peso WHERE data BETWEEN curdate() - interval 7 day and curdate()'
+            sqlscript = 'SELECT * FROM mydb.hist_peso WHERE data BETWEEN curdate() - interval 7 day and curdate() ' \
+                        'ORDER BY peso ASC'
 
         elif entrada.lower() == 'mensal':
             print('Valor mencionado foi (m): ', entrada.title())
             entTempoGrafico['text'] = tempoGrafico.title()
             entTempoGrafico['bg'] = '#90EE90'
-            sqlscript = 'SELECT * FROM mydb.hist_peso WHERE month(data)=(month(now())-1)'
+            sqlscript = 'SELECT * FROM mydb.hist_peso WHERE month(data)=(month(now())-1) ORDER BY peso ASC'
 
         elif entrada.lower() == 'ano':
             print('Valor mencionado foi (a): ', entrada.title())
             entTempoGrafico['text'] = tempoGrafico.title()
             entTempoGrafico['bg'] = '#90EE90'
-            sqlscript = 'SELECT * FROM mydb.hist_peso WHERE year(data)=(year(now())-1)'
+            sqlscript = 'SELECT * FROM mydb.hist_peso WHERE year(data)=(year(now())-1) ORDER BY peso ASC'
 
         else:
             entTempoGrafico['text'] = 'Informe um valor válido!'
@@ -76,9 +77,9 @@ def lerBanco(sqlscript):
     # Cores nos eixos x e y
     tick_params(axis='x', colors='#072b57')
     tick_params(axis='y', colors='#072b57')
-    xlabel('Datas do registro', color='#072b57')
-    ylabel('Peso do Pet', color='#072b57')
-    title('Gráfico de histórico de peso do pet', color='#072b57')
+    xlabel('DATAS REGISTRADAS', color='#072b57')
+    ylabel('ELEVAÇÃO PESO DO PET', color='#072b57')
+    title('GRÁFICO HISTÓRICO DE PESO DO PET', color='#072b57')
     pos = arange(len(eixoX)) + .5
     bar(pos, eixoY, align='center', color='blue')
     xticks(pos, eixoX, rotation=30, size='small')
@@ -130,7 +131,7 @@ def valida():
                         if texto.lower() == 'não':
                             valido = True
                             confirmado = True
-                            janela.after(5000, lambda: janela.destroy())
+                            janela.after(3000, lambda: janela.destroy())
                         else:
                             entTempoGrafico['text'] = "Qual o tempo desejado do gráfico?"
                             entTempoGrafico['bg'] = "white"
@@ -138,28 +139,30 @@ def valida():
                                 os.remove('grafico.png')
         print('Saiu')
 
-# Thread para rodar duas ações ao mesmo tempo.
-t = threading.Thread(name='my_service', target=valida)
-t.start()
 
-# ------------------------------ TKINTER INTERFACE ------------------------------ #
-global janela
-janela = Tk()
-janela.geometry("650x650+500+200")
-janela.wm_title("Assistente Pet")
-lbltitulo = Label(janela, text="GRÁFICOS DO PET", font=("Arial", 10, "bold")).place(x=200, y=10)
+def grafico_pet():
+    # Thread para rodar duas ações ao mesmo tempo.
+    t = threading.Thread(name='my_service', target=valida)
+    t.start()
 
-# ===== VARIAVEIS LOCAIS ===== #
-global entTempoGrafico
-entTempoGrafico = StringVar()
-global imagemGrafico
+    # ------------------------------ TKINTER INTERFACE ------------------------------ #
+    global janela
+    janela = Toplevel()
+    janela.geometry("650x650+300+100")
+    janela.wm_title("Assistente Pet")
+    lbltitulo = Label(janela, text="GRÁFICOS DO PET", font=("Arial", 10, "bold")).place(x=200, y=10)
 
-# Labels de idenficação dos campos
-Label(janela, text="Tempo do gráfico:", font=("Arial", 10, "bold")).place(x=25, y=50)
-Label(janela, text="Informe uma opção: Semanal/ Mensal/ Ano", font=("Arial", 8, "bold", "italic")).place(x=25, y=80)
+    # ===== VARIAVEIS LOCAIS ===== #
+    # global janela
+    global entTempoGrafico
+    entTempoGrafico = StringVar()
+    global imagemGrafico
 
-# Labels que aparecerão as respostas para nome e tipo do pet
-entTempoGrafico = Label(janela, font=("Arial", 10), bg='white', width='60', height='2', text='Qual o tempo do gráfico?')
-entTempoGrafico.place(x=25, y=110)
+    # Labels de idenficação dos campos
+    Label(janela, text="Tempo do gráfico:", font=("Arial", 10, "bold")).place(x=30, y=50)
+    Label(janela, text="Informe uma opção: Semanal/ Mensal/ Ano", font=("Arial", 8, "bold", "italic")).place(x=30, y=80)
+    # Labels que aparecerão as respostas para nome e tipo do pet
+    entTempoGrafico = Label(janela, font=("Arial", 10), bg='white', width='75', height='2', text='Qual o tempo do gráfico?')
+    entTempoGrafico.place(x=30, y=110)
 
-janela.mainloop()
+    janela.mainloop()
