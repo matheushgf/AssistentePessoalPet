@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`hist_peso` (
    FOREIGN KEY (`pet_id_pet`) REFERENCES `mydb`.`pet` (`id_pet`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
-); 
+);
 
 
 -- -----------------------------------------------------

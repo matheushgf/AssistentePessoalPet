@@ -5,8 +5,39 @@ from datetime import date
 import recognizer
 import crud
 import pymysql as mysql
+import pyttsx3
+
 
 # ======================= FUNCOES DO SISTEMA ======================== #
+
+def speech():
+    label2audio = ('Qual o peso do seu pet?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+
+def speechNome():
+    label2audio = ('Qual o nome do seu pet?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+
+def speechBanco():
+    label2audio = ('Operação confirmada com sucesso')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+
+def speechConfirma():
+    label2audio = ('Deseja comfirmar? Sim ou não')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+
 def validaPesoPet(entrada):
     global valorPesoPet
     valorPesoPet = float(0)
@@ -36,6 +67,7 @@ def validaPesoPet(entrada):
         entPeso['text'] = '{:.3f}'.format(pesoKgPet)
         valorPesoPet = '{:.3f}'.format(pesoKgPet)
         entPeso['bg'] = '#90EE90'
+        speechNome()
         return True
     except AttributeError:
         print('Valor inválido, repita')
@@ -49,6 +81,7 @@ def validaPesoPet(entrada):
         print('Valor inválido')
         entPeso['text'] = 'Valor inválido'
         entPeso['bg'] = '#FF6347'
+
 
 def validaNomePet(entrada):
     global nomePet
@@ -101,7 +134,7 @@ def valida():
             'Peso do Pet': {'validacao': validaPesoPet, 'mensagem': 'Qual o peso do seu Pet?'},
             'Nome do Pet': {'validacao': validaNomePet, 'mensagem': 'Qual o nome do pet?'}}
 
-#       Laço para percorrer todos os campos pela ordem da chave.
+        #       Laço para percorrer todos os campos pela ordem da chave.
         confirmado = False
         while confirmado is not True:
             for campo in campos.keys():
@@ -121,37 +154,38 @@ def valida():
                         print('Erro no método de validação')
                         break
 
-#           Validação dos dados para sair da tela.
+            #           Validação dos dados para sair da tela.
             if valido:
                 confirmado_valido = False
                 while confirmado_valido is not True:
-                    print('Deseja confirmar sim ou não')
+                    print('Deseja confirmar? \n Sim ou Não')
+                    speechConfirma()
                     texto = recognizer.recognizer()
                     if texto.lower() == 'sim' or texto.lower() == 'não':
                         confirmado_valido = True
                         if texto.lower() == 'sim':
                             valido = True
                             confirmado = True
+                            speechBanco()
                             insertCRUD()
-                            janela.after(5000, lambda: janela.destroy())
+                            janela.after(1000, lambda: janela.destroy())
                         else:
                             entPeso['text'] = "Diga o peso do pet, ex: 12 Kg e 500 gramas"
                             entNomePet['text'] = "Diga o nome do pet"
                             entPeso['bg'] = "white"
                             entNomePet['bg'] = "white"
+                            speech()
     print('Saiu')
 
 
 t = threading.Thread(name='my_service', target=valida)
 t.start()
 
-
 # ========================== JANELA TKINTER ========================== #
 janela = Tk()
 janela.geometry("350x500+500+200")
 janela.wm_title("Assistente Pet")
 lblTitulo = Label(janela, text="REGISTRO DE PESO DO PET", font=("Arial", 10, "bold")).place(x=70, y=10)
-
 
 # ===================== VARIAVEIS LOCAIS E GLOBAIS ===================== #
 global entPeso
@@ -161,12 +195,15 @@ entNomePet = StringVar()
 
 # Labels de idenficação dos campos
 lblPeso = Label(janela, text="Qual o peso do pet:", font=("Arial", 10, "bold")).place(x=10, y=50)
-#lblNomePet = Label(janela, text="Qual o nome do pet:", font=("Arial", 10, "bold")).place(x=10, y=130)
+# lblNomePet = Label(janela, text="Qual o nome do pet:", font=("Arial", 10, "bold")).place(x=10, y=130)
 
 # Labels que aparecerão as respostas
-entPeso = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Diga o peso do pet, ex: 12 Kg e 500 gramas")
+entPeso = Label(janela, font=("Arial", 10), bg='white', width='40', height='2',
+                text="Diga o peso do pet, ex: 12 Kg e 500 gramas")
 entPeso.place(x=10, y=80)
 entNomePet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Diga o nome do pet")
 entNomePet.place(x=10, y=160)
 
+t = threading.Thread(target=speech)
+t.start()
 janela.mainloop()

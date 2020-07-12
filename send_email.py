@@ -16,7 +16,7 @@ def recebe_hora():
     global id_dono
     id_alerta = 0
 
-    mydb = mysql.connect(host='localhost', user='root', password='', db='mydb', charset='utf8mb4')
+    mydb = mysql.connect(host='localhost', user='root', password='Admin001@', db='mydb', charset='utf8mb4')
 
     cursor = mydb.cursor()
 
@@ -39,7 +39,7 @@ def recebe_hora():
     mydb.close()
 def recebe_categoria():
 
-    mydb = mysql.connect(host='localhost', user='root', password='', db='mydb', charset='utf8mb4')
+    mydb = mysql.connect(host='localhost', user='root', password='Admin001@', db='mydb', charset='utf8mb4')
 
     cursor = mydb.cursor()
 
@@ -118,7 +118,7 @@ def notifier(texto):
         title=titulo_notify,
         message=texto_notify,
         app_name='AssistentePessoalPet',
-        app_icon='icone_pet.ico'
+        app_icon='icone-pet.ico'
     )
 
 def execute_email(email):
@@ -130,7 +130,7 @@ def execute_email(email):
 
 def update_alerta():
 
-    mydb = mysql.connect(host='localhost', user='root', password='', db='mydb', charset='utf8mb4')
+    mydb = mysql.connect(host='localhost', user='root', password='Admin001@', db='mydb', charset='utf8mb4')
     cursor = mydb.cursor(mysql.cursors.DictCursor)
     cursor.execute("UPDATE alerta SET situacao = 0 WHERE id_alerta = %s",(id_alerta))
     cursor.execute("commit");
