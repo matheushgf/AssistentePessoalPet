@@ -118,37 +118,39 @@ def valida():
             if valido:
 
                 if pegaCategoria():
-
+                    confirmado = True
                     janela.after(5000, lambda: janela.destroy())
 
 
+def dicasDePet():
 
-t = threading.Thread(name='my_service', target=valida)
-t.start()
+    t = threading.Thread(name='my_service', target=valida)
+    t.start()
 
+    global janela
+    # ========================== JANELA TKINTER ========================== #
+    janela = Tk()
+    janela.geometry("350x500+500+200")
+    janela.wm_title("Assistente Pet")
+    lblTitulo = Label(janela, text="GUIA PET", font=("Arial", 10, "bold")).place(x=70, y=10)
 
-# ========================== JANELA TKINTER ========================== #
-janela = Tk()
-janela.geometry("350x500+500+200")
-janela.wm_title("Assistente Pet")
-lblTitulo = Label(janela, text="GUIA PET", font=("Arial", 10, "bold")).place(x=70, y=10)
+    # ===================== VARIAVEIS LOCAIS E GLOBAIS ===================== #
+    global entTipoPet
+    global entDicas
+    entTipoPet = StringVar()
 
-# ===================== VARIAVEIS LOCAIS E GLOBAIS ===================== #
-global entTipoPet
-entTipoPet = StringVar()
+    # Labels de idenficação dos campos
+    lblTipoPet = Label(janela, text="Diga o tipo de pet que quer dicas:", font=("Arial", 10, "bold")).place(x=10, y=50)
 
-# Labels de idenficação dos campos
-lblTipoPet = Label(janela, text="Diga o tipo de pet que quer dicas:", font=("Arial", 10, "bold")).place(x=10, y=50)
+    # Labels que aparecerão as respostas para nome e tipo do pet
+    #entTipoPet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', textvariable=txtMarcaRacao)
+    entTipoPet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Qual a Categoria das dicas?")
+    entTipoPet.place(x=10, y=80)
 
-# Labels que aparecerão as respostas para nome e tipo do pet
-#entTipoPet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', textvariable=txtMarcaRacao)
-entTipoPet = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Qual a Categoria das dicas?")
-entTipoPet.place(x=10, y=80)
+    entDicas = Label(janela, font=("Arial", 10), bg='white', width='40', height='20', text="")
+    entDicas.place(x=10, y=160)
 
-entDicas = Label(janela, font=("Arial", 10), bg='white', width='40', height='20', text="")
-entDicas.place(x=10, y=160)
+    t = threading.Thread(target=speech)
+    t.start()
+    janela.mainloop()
 
-t = threading.Thread(target=speech)
-t.start()
-
-janela.mainloop()
