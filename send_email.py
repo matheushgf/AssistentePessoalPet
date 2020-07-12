@@ -118,7 +118,7 @@ def notifier(texto):
         title=titulo_notify,
         message=texto_notify,
         app_name='AssistentePessoalPet',
-        app_icon='icone_pet.ico'
+        app_icon='icone-pet.ico'
     )
 
 def execute_email(email):
