@@ -2,12 +2,44 @@ from tkinter import *
 import threading
 import tkinter.messagebox as MessageBox
 from datetime import date
+import datetime
 import recognizer
 import crud
 import pymysql as mysql
-
+import pyttsx3
 
 # ======================= FUNCOES DO SISTEMA ======================== #
+
+def speech():
+    label2audio = ('Qual a marca da ração?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechQuantia():
+    label2audio = ('Qual a quantia total do saco de ração?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechDiario():
+    label2audio = ('Qual o valor diário de ração entregue ao pet?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechBanco():
+    label2audio = ('Operação confirmada com sucesso')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechConfirma():
+    label2audio = ('Deseja comfirmar? Sim ou não')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
 def validaMarcaRacao(entrada):
     global valorMarcaRacao
     valorMarcaRacao = str('')
@@ -23,6 +55,7 @@ def validaMarcaRacao(entrada):
         entMarcaRacao['text'] = marcaRacao.title()
         entMarcaRacao['bg'] = '#90EE90'
         valorMarcaRacao = marcaRacao.title()
+        speechQuantia()
         return True
     except AttributeError:
         print('Valor inválido, repita')
@@ -44,7 +77,7 @@ def validaSacoRacao(entrada):
     racaoPct = None
     try:
         if entrada == '':
-            entSacoRacao['text'] = 'Insira o Marca da Ração!'
+            entSacoRacao['text'] = 'Diga o peso total do saco de ração!'
             entSacoRacao['bg'] = '#FF6347'
             return False
         entradaDado = entrada.split()
@@ -71,6 +104,7 @@ def validaSacoRacao(entrada):
         entSacoRacao['text'] = '{:.3f}'.format(racaoPct)
         entSacoRacao['bg'] = '#90EE90'
         valorSacoRacao = '{:.3f}'.format(racaoPct)
+        speechDiario()
         return True
     except AttributeError:
         print('Valor inválido, repita')
@@ -166,15 +200,17 @@ def valida():
             if valido:
                 confirmado_valido = False
                 while confirmado_valido is not True:
-                    print('Deseja confirmar sim ou não')
+                    print('Deseja confirmar? \n Sim ou Não?')
+                    speechConfirma()
                     texto = recognizer.recognizer()
                     if texto.lower() == 'sim' or texto.lower() == 'não':
                         confirmado_valido = True
                         if texto.lower() == 'sim':
                             valido = True
                             confirmado = True
+                            speechBanco()
                             insertCRUD()
-                            janela.after(5000, lambda: janela.destroy())
+                            janela.after(1000, lambda: janela.destroy())
                         else:
                             entMarcaRacao['text'] = "Qual a marca da ração comprada?"
                             entSacoRacao['text'] = "Qual o peso do saco de ração comprado?"
@@ -182,6 +218,7 @@ def valida():
                             entMarcaRacao['bg'] = "white"
                             entSacoRacao['bg'] = "white"
                             entRacaoDiario['bg'] = "white"
+                            speech()
             print('Saiu')
 
 
@@ -190,11 +227,25 @@ def insertCRUD():
     if str(valorMarcaRacao)=="" or valorSacoRacao=="" or valorRacaoDia=="":
         MessageBox.showinfo("Campos em branco! Favor preencher os requisitos")
     else:
+        #Insert na tabela ração
         nome_tabela = 'racao'
         dados = {'marca_racao': valorMarcaRacao, 'quant_racao': valorSacoRacao, 'quant_diaria_racao': valorRacaoDia,
              'data_compra_racao': hoje}
         crud.insert(nome_tabela, dados)
 
+        #Cálculo de alerta
+        quant_racao = float(dados['quant_racao'])
+        quant_racao_diaria = float(dados['quant_diaria_racao'])
+
+        dias_duracao = int((quant_racao/quant_racao_diaria)-1)
+        dias_duracao = datetime.timedelta(days = dias_duracao)
+        previsao_acabar = hoje + dias_duracao
+
+        # Insert na tabela de alerta para mandar as notificações
+        nome_tabela = 'alerta'
+        dados = {'data_alerta': previsao_acabar, 'id_dono': 2, 'id_tipo_alerta': 4, 'situacao': 1,
+                 'descricao_alerta': 'Alerta de Ração'}
+        crud.insert(nome_tabela, dados)
 
 t = threading.Thread(name='my_service', target=valida)
 t.start()
@@ -231,5 +282,7 @@ entSacoRacao.place(x=10, y=160)
 entRacaoDiario = Label(janela, font=("Arial", 10), bg='white', width='40', height='2', text="Qual o valor de ração diário entregue ao pet?")
 entRacaoDiario.place(x=10, y=240)
 
-janela.mainloop()
+t = threading.Thread(target=speech)
+t.start()
 
+janela.mainloop()
