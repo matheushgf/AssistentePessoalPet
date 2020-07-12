@@ -3,7 +3,7 @@ import threading
 import matplotlib.pyplot as plt
 from pylab import *
 import pymysql as mysql
-from petassistant_develop import recognizer
+import recognizer
 import os.path
 import time
 
