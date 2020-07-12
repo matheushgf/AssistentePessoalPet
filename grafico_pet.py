@@ -6,10 +6,24 @@ import pymysql as mysql
 import recognizer
 import os.path
 import time
-
+import pyttsx3
 
 # ---------------------------- FUNÇÕES DO CADASTRO ---------------------------- #
 # Validação dos dados recebidos pelo laço valida()
+
+def speech():
+    label2audio = ('Informe uma opção de tempo de gráfico: Semanal, Mensal ou Ano.')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+def speechConfirma():
+    label2audio = ('Deseja gerar outro grafico? Sim ou Não?')
+    en = pyttsx3.init()
+    en.say(label2audio)
+    en.runAndWait()
+
+
 def validaTempo(entrada):
     global sqlscript
     global valorTempo
@@ -62,7 +76,7 @@ def lerBanco(sqlscript):
 
     eixoX = []
     eixoY = []
-    c = mysql.connect(host='localhost', user='petuser', password='', db='mydb', charset='utf8mb4')
+    c = mysql.connect(host='localhost', user='root', password='Admin001@', db='mydb', charset='utf8mb4')
     with c:
         mydb = c.cursor(mysql.cursors.DictCursor)
         print(sqlscript)
@@ -124,7 +138,8 @@ def valida():
                 lerBanco(sqlscript)
                 confirmado_valido = False
                 while confirmado_valido is not True:
-                    print('Deseja gerar outro gráfico (SIM) ou sair (NÃO)')
+                    print('Deseja gerar outro gráfico? SIM ou NÃO?')
+                    speechConfirma()
                     texto = recognizer.recognizer()
                     if texto.lower() == 'não' or texto.lower() == 'sim':
                         confirmado_valido = True
@@ -142,6 +157,8 @@ def valida():
 
 def grafico_pet():
     # Thread para rodar duas ações ao mesmo tempo.
+    t = threading.Thread(target=speech)
+    t.start()
     t = threading.Thread(name='my_service', target=valida)
     t.start()
 
