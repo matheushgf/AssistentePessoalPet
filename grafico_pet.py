@@ -76,7 +76,7 @@ def lerBanco(sqlscript):
 
     eixoX = []
     eixoY = []
-    c = mysql.connect(host='localhost', user='root', password='Admin001@', db='mydb', charset='utf8mb4')
+    c = mysql.connect(host='localhost', user='root', password='', db='mydb', charset='utf8mb4')
     with c:
         mydb = c.cursor(mysql.cursors.DictCursor)
         print(sqlscript)

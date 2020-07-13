@@ -1,5 +1,11 @@
 insert into mydb.tipo_alerta (categoria_alerta) values
 ('Vacina'), ('Banho/Tosa'), ('Outros'), ('Ração');
 
-insert into mydb.tipo_pet (categoria_tipo_pet) VALUES
+insert into mydb.tipo_pet (categoria_tipo_pet) values
 ('Cachorro'), ('Gato'), ('Outros');
+
+insert into mydb.hist_peso (peso, data, pet_id_pet) values
+(1.250, '2020-06-05', 15),(2.500, '2020-06-10', 15),(3.750, '2020-06-12', 15),(5.900, '2020-06-15', 15),(7.500, '2020-06-20', 15),
+(5.000, '2020-06-25', 15),(9.550, '2020-06-27', 15),(7.350, '2020-06-28', 15),(8.750, '2020-06-29', 15),(9.750, '2020-06-30', 15),
+(1.250, '2020-07-05', 14),(1.400, '2020-07-06', 14),(2.500, '2020-07-09', 14),(3.500, '2020-07-10', 14),(2.500, '2020-07-12', 14),
+(4.750, '2020-07-13', 14);

@@ -301,7 +301,7 @@ def insertCrud():
 
     print(datetime)
 
-    mydb = mysql.connect(host='localhost', user='root', password='Admin001@', db='mydb', charset='utf8mb4')
+    mydb = mysql.connect(host='localhost', user='root', password='', db='mydb', charset='utf8mb4')
 
     cursor = mydb.cursor(mysql.cursors.DictCursor)
 
