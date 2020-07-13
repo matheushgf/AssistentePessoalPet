@@ -1,16 +1,16 @@
 # ProjetoIntegrador
 Projeto Integrador do 1° e 6° Semestre de Banco de Dados da Faculdade de Tecnologia de São José dos Campos
 
-### Desenvolvedores:
+### Desenvolvedores/ LinkedIn:
 * Daniel Cassemiro Souza
-* Eduardo Ferreira
-* Ruan Macedo
+* Eduardo Ferreira / linkedin.com/in/eduardoalexandreferreirasjc
+* Ruan Macedo / linkedin.com/in/ruan-cesar-65304719a
 * Renan Moreira Pereira
 * Jonathan Santos
-* William David Antoniazzi
+* William David Antoniazzi / linkedin.com/in/williamantoniazzi
 
-### Master:
-* Matheus Henrique Ferreira
+### Scrum Master:
+* Matheus Henrique Ferreira / linkedin.com/in/matheushgf
 
 ### O que é assistente para PET?
 Um assistente virtual desktop, com compartilhamento via internet, que irá ajudar o utilizador com cuidados e dicas para o pet, seja ele um cachorro ou gato.
