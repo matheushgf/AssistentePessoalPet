@@ -3,14 +3,14 @@ Projeto Integrador do 1° e 6° Semestre de Banco de Dados da Faculdade de Tecno
 
 ### Desenvolvedores/ LinkedIn:
 * Daniel Cassemiro Souza
-* Eduardo Ferreira / linkedin.com/in/eduardoalexandreferreirasjc
-* Ruan Macedo / linkedin.com/in/ruan-cesar-65304719a
+* Eduardo Ferreira / **[eduardoalexandreferreirasjc](https://www.linkedin.com/in/eduardoalexandreferreirasjc)**
+* Ruan Macedo / **[ruan-cesar-65304719a](https://www.linkedin.com/in/ruan-cesar-65304719a)**
 * Renan Moreira Pereira
 * Jonathan Santos
-* William David Antoniazzi / linkedin.com/in/williamantoniazzi
+* William David Antoniazzi / **[williamantoniazzi](https://www.linkedin.com/in/williamantoniazzi)**
 
 ### Scrum Master:
-* Matheus Henrique Ferreira / linkedin.com/in/matheushgf
+* Matheus Henrique Ferreira / **[matheushgf](https://www.linkedin.com/in/matheushgf)**
 
 ### O que é assistente para PET?
 Um assistente virtual desktop, com compartilhamento via internet, que irá ajudar o utilizador com cuidados e dicas para o pet, seja ele um cachorro ou gato.
